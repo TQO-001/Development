@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Python Mastery Reference · Damian Thulani</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=JetBrains+Mono:ital,wght@0,300;0,400;0,500;0,700;1,400&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:      #080C16;
+  --surface: #101828;
+  --card:    #141E30;
+  --border:  #1E2D45;
+  --teal:    #3FEFBF;
+  --gold:    #F5B731;
+  --text:    #6296ea;
+  --muted:   #6B7A99;
+
+  --c1:#5BBFED; --c1b:#1B4E6E;
+  --c2:#C084FC; --c2b:#4A2060;
+  --c3:#FB923C; --c3b:#7A3E00;
+  --c4:#4DCFA4; --c4b:#1A5C38;
+  --c5:#F5B731; --c5b:#7A5A00;
+  --c6:#FF6B6B; --c6b:#6E1A1A;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  line-height: 1.5;
+  background-image:
+    linear-gradient(rgba(63,239,191,.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(63,239,191,.03) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+
+#cover {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 60px 80px;
+  position: relative;
+  overflow: hidden;
+  border-bottom: 2px solid var(--border);
+}
+#cover::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 60% 60% at 80% 40%, rgba(63,239,191,.07) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 40% at 20% 80%, rgba(245,183,49,.05) 0%, transparent 70%);
+}
+.cover-label {
+  font-size: 11px; letter-spacing: .18em; text-transform: uppercase;
+  color: var(--teal); margin-bottom: 24px; display: flex; align-items: center; gap: 12px;
+}
+.cover-label::before { content:''; display:block; width:32px; height:1px; background: var(--teal); }
+.cover-title {
+  font-family: 'Bebas Neue', sans-serif; font-size: clamp(72px, 10vw, 120px);
+  line-height: .9; letter-spacing: .02em; color: var(--text); margin-bottom: 8px;
+}
+.cover-title span { color: var(--teal); }
+.cover-sub {
+  font-family: 'Bebas Neue', sans-serif; font-size: clamp(28px, 4vw, 44px);
+  color: var(--muted); letter-spacing: .06em; margin-bottom: 40px;
+}
+.cover-meta { display: flex; flex-wrap: wrap; gap: 24px; margin-bottom: 48px; }
+.meta-pill { background: var(--card); border: 1px solid var(--border); border-radius: 4px; padding: 10px 20px; font-size: 12px; color: var(--muted); }
+.meta-pill strong { color: var(--gold); font-size: 22px; display: block; }
+.cover-legend { display: flex; gap: 32px; flex-wrap: wrap; border-top: 1px solid var(--border); padding-top: 32px; width: 100%; }
+.legend-item { display: flex; align-items: center; gap: 10px; font-size: 12px; color: var(--muted); }
+.legend-dot { width: 12px; height: 12px; border-radius: 2px; flex-shrink: 0; }
+.cover-docs { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 40px; }
+.doc-chip { font-size: 10px; letter-spacing: .08em; text-transform: uppercase; padding: 6px 14px; border-radius: 2px; border: 1px solid; }
+
+#nav {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(8,12,22,.92); backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; padding: 0 40px; height: 52px; gap: 4px; flex-wrap: wrap;
+}
+.nav-logo { font-family: 'Bebas Neue', sans-serif; font-size: 18px; letter-spacing: .08em; color: var(--teal); margin-right: 24px; }
+.nav-btn {
+  font-size: 10.5px; letter-spacing: .05em; color: var(--muted); background: none; border: none;
+  cursor: pointer; padding: 6px 10px; border-radius: 3px; transition: all .2s; text-transform: uppercase;
+  text-decoration: none; display: inline-block;
+}
+.nav-btn:hover { color: var(--text); background: var(--card); }
+.print-btn {
+  margin-left: auto; font-size: 11px; letter-spacing: .06em; color: var(--bg); background: var(--teal);
+  border: none; cursor: pointer; padding: 7px 18px; border-radius: 3px; font-weight: 700; text-transform: uppercase;
+}
+.print-btn:hover { background: #5fffcf; }
+
+.section-wrap { padding: 0 32px 64px; }
+.section-wrap.accent-1 { --accent: var(--c1); --accent-b: var(--c1b); }
+.section-wrap.accent-2 { --accent: var(--c2); --accent-b: var(--c2b); }
+.section-wrap.accent-3 { --accent: var(--c3); --accent-b: var(--c3b); }
+.section-wrap.accent-4 { --accent: var(--c4); --accent-b: var(--c4b); }
+.section-wrap.accent-5 { --accent: var(--c5); --accent-b: var(--c5b); }
+.section-wrap.accent-6 { --accent: var(--c6); --accent-b: var(--c6b); }
+
+.section-banner {
+  padding: 48px 0 32px; display: flex; align-items: flex-end; justify-content: space-between;
+  border-bottom: 2px solid var(--accent-b, var(--border)); margin-bottom: 24px; flex-wrap: wrap; gap: 16px;
+}
+.section-num { font-family: 'Bebas Neue', sans-serif; font-size: 100px; line-height: 1; opacity: .08; position: absolute; right: 60px; top: 0; letter-spacing: .02em; pointer-events: none; }
+.banner-left { position: relative; }
+.banner-tag { font-size: 10px; letter-spacing: .2em; text-transform: uppercase; color: var(--accent, var(--teal)); margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+.banner-tag::before { content:''; display:block; width:20px; height:1px; background: var(--accent, var(--teal)); }
+.banner-title { font-family: 'Bebas Neue', sans-serif; font-size: 48px; letter-spacing: .04em; line-height: 1; color: var(--text); }
+.banner-sub { font-size: 12px; color: var(--muted); margin-top: 6px; max-width: 640px; }
+.banner-right { display: flex; gap: 20px; }
+.banner-stat { text-align: right; }
+.banner-stat-num { font-family: 'Bebas Neue', sans-serif; font-size: 32px; color: var(--gold); }
+.banner-stat-label { font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+
+.ref-table { width: 100%; border-collapse: collapse; }
+.ref-table th {
+  font-size: 9px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted);
+  text-align: left; padding: 10px 16px; border-bottom: 2px solid var(--border); white-space: nowrap;
+}
+.th-term { width: 14%; }
+.th-what { width: 33%; }
+.th-why  { width: 35%; }
+.th-tags { width: 18%; }
+
+.ref-row { border-bottom: 1px solid rgba(30,45,69,.7); transition: background .15s; vertical-align: top; }
+.ref-row:hover { background: rgba(63,239,191,.03); }
+.ref-row.focus-row { background: rgba(245,183,49,.04); border-bottom: 1px solid rgba(245,183,49,.15); border-top: 1px solid rgba(245,183,49,.15); }
+.ref-row.focus-row:hover { background: rgba(245,183,49,.07); }
+
+td { padding: 11px 16px; vertical-align: top; }
+.td-term { font-family: 'Bebas Neue', sans-serif; font-size: 17px; letter-spacing: .02em; color: var(--text); padding-top: 12px; line-height: 1.15; }
+.term-badge { display: inline-flex; flex-direction: column; gap: 2px; }
+.term-flag { font-size: 7px; letter-spacing: .12em; color: var(--gold); text-transform: uppercase; font-family: 'JetBrains Mono', monospace; }
+
+.td-what, .td-why { font-size: 11.5px; color: var(--text); line-height: 1.55; }
+.td-what code, .td-why code { font-size: 10px; color: var(--teal); background: rgba(63,239,191,.08); padding: 1px 4px; border-radius: 2px; }
+
+.td-tags { font-size: 10.5px; color: var(--muted); line-height: 1.6; font-style: italic; }
+
+.ref-row td:first-child { border-left: 3px solid transparent; }
+.ref-row.focus-row td:first-child { border-left: 3px solid var(--gold); }
+
+#footer { border-top: 1px solid var(--border); padding: 32px 80px; display: flex; justify-content: space-between; align-items: center; font-size: 11px; color: var(--muted); }
+
+@media print {
+  @page { size: A4 landscape; margin: 8mm 10mm 8mm 10mm; }
+  @page :first { size: A4 portrait; margin: 0; }
+  * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+  html, body { background: #fff !important; color: #000 !important; font-size: 7pt; line-height: 1.3; background-image: none !important; }
+  #nav, .print-btn, #footer { display: none !important; }
+  #cover { width: 210mm; height: 297mm; min-height: 0; padding: 28mm 24mm; background: #0A0B14 !important; color: #fff !important; page-break-after: always; border: none; display: flex !important; justify-content: center; }
+  #cover::before { display: none; }
+  .cover-label { color: #3FEFBF !important; }
+  .cover-label::before { background: #3FEFBF !important; }
+  .cover-title { font-size: 72pt; color: #E2E8F2 !important; }
+  .cover-title span { color: #3FEFBF !important; }
+  .cover-sub { color: #6B7A99 !important; font-size: 20pt; }
+  .meta-pill { background: #141E30 !important; border-color: #1E2D45 !important; color: #6B7A99 !important; }
+  .meta-pill strong { color: #F5B731 !important; }
+  .cover-legend { border-color: #1E2D45 !important; }
+  .legend-item { color: #6B7A99 !important; }
+  .doc-chip { font-size: 8pt; }
+  .section-wrap { padding: 0; page-break-before: always; }
+  .section-banner { padding: 6mm 0 4mm; margin-bottom: 3mm; border-bottom: 1.5pt solid #ddd; page-break-after: avoid; }
+  .section-num { display: none; }
+  .banner-tag { color: #555 !important; font-size: 6pt; }
+  .banner-tag::before { background: #555 !important; }
+  .banner-title { font-size: 22pt; color: #000 !important; }
+  .banner-sub { color: #555 !important; font-size: 6.5pt; }
+  .banner-stat-num { color: #555 !important; font-size: 16pt; }
+  .banner-stat-label { color: #888 !important; }
+  .doc-chip { border-color: #ccc !important; color: #555 !important; }
+  .ref-table { width: 100%; border-collapse: collapse; }
+  .ref-table th { font-size: 6pt; letter-spacing: .08em; padding: 2mm 2.5mm; border-bottom: 1pt solid #888; color: #444 !important; background: #f8f8f8; page-break-after: avoid; }
+  td { padding: 1.8mm 2.5mm; border-bottom: .5pt solid #e0e0e0; vertical-align: top; }
+  .ref-row { border-bottom: .5pt solid #e0e0e0; }
+  .ref-row.focus-row { background: #FFFBEA !important; border-top: .5pt solid #F5B731 !important; border-bottom: .5pt solid #F5B731 !important; }
+  .ref-row.focus-row td:first-child { border-left: 2pt solid #F5B731; }
+  .ref-row td:first-child { border-left: 2pt solid transparent; padding-left: 3mm; }
+  .td-term { font-size: 9.5pt; color: #000 !important; padding-top: 2mm; }
+  .term-flag { color: #C08000 !important; }
+  .td-what, .td-why { font-size: 6.6pt; color: #111 !important; line-height: 1.32; }
+  .td-what code, .td-why code { color: #0A6E5A !important; background: none; padding: 0; }
+  .td-tags { font-size: 6pt; color: #555 !important; line-height: 1.3; font-style: italic; }
+  .ref-row.focus-row .td-tags { color: #7A5000 !important; }
+  .th-term { width: 13%; } .th-what { width: 32%; } .th-why { width: 36%; } .th-tags { width: 19%; }
+  .ref-row { page-break-inside: avoid; }
+  thead { display: table-header-group; }
+}
+</style>
+</head>
+<body>
+
+<div id="cover">
+  <div class="cover-label">Zero to Senior Engineer · laughtale.co.za</div>
+  <div class="cover-title">PYTHON<br><span>MASTERY</span></div>
+  <div class="cover-sub">QUICK REFERENCE</div>
+
+  <div class="cover-meta">
+    <div class="meta-pill"><strong>6</strong> Domains</div>
+    <div class="meta-pill"><strong>32</strong> Concepts</div>
+    <div class="meta-pill"><strong>7</strong> Focus Areas</div>
+  </div>
+
+  <div class="cover-docs">
+    <div class="doc-chip" style="color:#5BBFED;border-color:#1B4E6E">01 · ADVANCED LANGUAGE CONCEPTS</div>
+    <div class="doc-chip" style="color:#C084FC;border-color:#4A2060">02 · OOP &amp; DESIGN PATTERNS</div>
+    <div class="doc-chip" style="color:#FB923C;border-color:#7A3E00">03 · DSA OPTIMIZATION</div>
+    <div class="doc-chip" style="color:#4DCFA4;border-color:#1A5C38">04 · CONCURRENCY &amp; PARALLELISM</div>
+    <div class="doc-chip" style="color:#F5B731;border-color:#7A5A00">05 · ENGINEERING PRACTICE</div>
+    <div class="doc-chip" style="color:#FF6B6B;border-color:#6E1A1A">06 · SYSTEM ARCHITECTURE</div>
+  </div>
+
+  <div class="cover-legend">
+    <div class="legend-item">
+      <div class="legend-dot" style="background:var(--teal)"></div>
+      Each row: TERM → MECHANISM → WHY/WHEN IT MATTERS → KEY TERMS
+    </div>
+    <div class="legend-item">
+      <div class="legend-dot" style="background:var(--gold)"></div>
+      Gold rows = your flagged shaky areas (Decorators, Generators, Context Managers, Async, OOP)
+    </div>
+    <div class="legend-item" style="margin-left:auto;font-size:11px;color:var(--muted)">
+      Print: Chrome/Edge → Print → A4 · Background graphics ON · Landscape
+    </div>
+  </div>
+</div>
+
+<div id="nav">
+  <div class="nav-logo">REFERENCE</div>
+  <a class="nav-btn" href="#sec1">01 · Language</a>
+  <a class="nav-btn" href="#sec2">02 · OOP</a>
+  <a class="nav-btn" href="#sec3">03 · DSA</a>
+  <a class="nav-btn" href="#sec4">04 · Concurrency</a>
+  <a class="nav-btn" href="#sec5">05 · Practice</a>
+  <a class="nav-btn" href="#sec6">06 · Architecture</a>
+  <button class="print-btn" onclick="window.print()">⎙ Print A4</button>
+</div>
+
+<div class="section-wrap accent-1" id="sec1">
+  <div class="section-banner">
+    <div class="banner-left" style="position:relative">
+      <div class="section-num">01</div>
+      <div class="banner-tag">Domain 01</div>
+      <div class="banner-title">ADVANCED LANGUAGE CONCEPTS</div>
+      <div class="banner-sub">How Python handles functions, memory, and execution under the hood.</div>
+    </div>
+    <div class="banner-right">
+      <div class="banner-stat"><div class="banner-stat-num">6</div><div class="banner-stat-label">Concepts</div></div>
+      <div class="banner-stat"><div class="banner-stat-num">3</div><div class="banner-stat-label">Focus</div></div>
+    </div>
+  </div>
+
+  <table class="ref-table">
+    <thead><tr><th class="th-term">TERM</th><th class="th-what">MECHANISM</th><th class="th-why">WHY / WHEN IT MATTERS</th><th class="th-tags">KEY TERMS</th></tr></thead>
+    <tbody>
+      <tr class="ref-row">
+        <td class="td-term">Closures</td>
+        <td class="td-what">A closure is created when a nested function references variables from its enclosing scope, and Python keeps those variables alive in the function's <code>__closure__</code> even after the outer function has returned. Each call to the outer function creates a fresh, independent set of captured variables, so closures preserve state between calls without needing a class.</td>
+        <td class="td-why">This is the exact mechanism decorators rely on to wrap functions, and it's how you build counters, memoizers, or config factories without instantiating a full object. Reach for a closure when you need lightweight state carried across calls but don't want the overhead of a class.</td>
+        <td class="td-tags">closure, free variable, enclosing scope</td>
+      </tr>
+      <tr class="ref-row focus-row">
+        <td class="td-term"><span class="term-badge">Decorators<span class="term-flag">⚠ FOCUS</span></span></td>
+        <td class="td-what">A decorator is a higher-order function that takes a function as an argument, wraps it in another function that adds behavior, and returns the wrapper — <code>@decorator</code> is sugar for <code>func = decorator(func)</code>. Because the wrapper replaces the original function's identity, always apply <code>functools.wraps</code> inside so the original name, docstring, and signature survive for introspection and debugging.</td>
+        <td class="td-why">Use decorators for cross-cutting concerns that would otherwise be copy-pasted into every function — logging, timing, retries, permission checks, caching. <code>@lru_cache</code> is the built-in example: it transparently memoizes results, turning expensive repeated calls into O(1) lookups after the first run.</td>
+        <td class="td-tags">@wraps, functools, higher-order fn</td>
+      </tr>
+      <tr class="ref-row focus-row">
+        <td class="td-term"><span class="term-badge">Generators<span class="term-flag">⚠ FOCUS</span></span></td>
+        <td class="td-what">A function containing <code>yield</code> becomes a generator function; calling it doesn't run the body immediately — it returns a generator object that executes lazily one <code>yield</code> at a time, suspending and resuming its exact local state between each value produced. This is fundamentally different from a function that builds and returns a full list, since nothing is computed until you actually iterate.</td>
+        <td class="td-why">Use generators anywhere you're processing a sequence that's large, infinite, or expensive to fully materialize — reading gigabyte log files line by line, streaming API results, lazy pipelines with <code>itertools</code>. The payoff is O(1) memory instead of O(n): a little per-call overhead in exchange for handling datasets that would never fit in memory as a list.</td>
+        <td class="td-tags">yield, StopIteration, gen expr</td>
+      </tr>
+      <tr class="ref-row">
+        <td class="td-term">Iterators</td>
+        <td class="td-what">Any object implementing <code>__iter__</code> (returning an iterator) and <code>__next__</code> (returning the next value or raising <code>StopIteration</code>) satisfies the iterator protocol — what <code>for</code> loops, comprehensions, and <code>*</code> unpacking all rely on. Generators are the easiest way to create one, since <code>yield</code> auto-generates this machinery for you.</td>
+        <td class="td-why">Matters when a custom object needs to behave like a native sequence in a <code>for</code> loop, or when debugging why something is "iterable" but not "an iterator" — an iterable can be looped over repeatedly, an iterator is consumed once. This distinction is what causes the classic bug of reusing an already-exhausted generator.</td>
+        <td class="td-tags">iterable protocol, iter(), next()</td>
+      </tr>
+      <tr class="ref-row">
+        <td class="td-term">Dunder Methods</td>
+        <td class="td-what">Double-underscore methods are Python's hook system — the interpreter calls them implicitly in response to operators and built-ins, e.g. <code>str(obj)</code> calls <code>__str__()</code>, <code>obj()</code> calls <code>__call__()</code>, and <code>obj.missing</code> triggers <code>__getattr__()</code> only when normal lookup fails. This is operator overloading: you're not overriding syntax, you're implementing the interface the syntax already expects.</td>
+        <td class="td-why">Implement these to make a custom class integrate naturally with Python's ecosystem — printable with <code>print()</code>, comparable with <code>==</code>, iterable in a <code>for</code> loop, usable as a dict key via <code>__hash__</code>/<code>__eq__</code>. This is what separates a plain data bag from a class that feels like a first-class Python citizen.</td>
+        <td class="td-tags">magic methods, operator overload</td>
+      </tr>
+      <tr class="ref-row focus-row">
+        <td class="td-term"><span class="term-badge">Context Managers<span class="term-flag">⚠ FOCUS</span></span></td>
+        <td class="td-what">The <code>with</code> statement calls <code>__enter__()</code> on entry (its return value binds after <code>as</code>) and guarantees <code>__exit__()</code> runs on the way out — even after an exception — because <code>__exit__</code> receives the exception info and can suppress or propagate it. <code>@contextmanager</code> from <code>contextlib</code> lets you write this as one generator function with a single <code>yield</code> instead of a class with two methods.</td>
+        <td class="td-why">Use context managers for anything that must be cleaned up reliably: closing files, releasing locks, committing/rolling back DB transactions, restoring global state after a test. The guarantee that cleanup runs on every exit path — success, early return, or exception — is what makes resource leaks preventable.</td>
+        <td class="td-tags">with, contextlib, resource mgmt</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="section-wrap accent-2" id="sec2">
+  <div class="section-banner">
+    <div class="banner-left" style="position:relative">
+      <div class="section-num">02</div>
+      <div class="banner-tag">Domain 02</div>
+      <div class="banner-title">OOP &amp; DESIGN PATTERNS</div>
+      <div class="banner-sub">Writing scalable, maintainable architecture in an object-oriented language.</div>
+    </div>
+    <div class="banner-right">
+      <div class="banner-stat"><div class="banner-stat-num">7</div><div class="banner-stat-label">Concepts</div></div>
+      <div class="banner-stat"><div class="banner-stat-num">3</div><div class="banner-stat-label">Focus</div></div>
+    </div>
+  </div>
+
+  <table class="ref-table">
+    <thead><tr><th class="th-term">TERM</th><th class="th-what">MECHANISM</th><th class="th-why">WHY / WHEN IT MATTERS</th><th class="th-tags">KEY TERMS</th></tr></thead>
+    <tbody>
+      <tr class="ref-row focus-row">
+        <td class="td-term"><span class="term-badge">Inheritance &amp; Polymorphism<span class="term-flag">⚠ FOCUS</span></span></td>
+        <td class="td-what">Inheritance lets a subclass reuse and extend a parent's attributes and methods; polymorphism means different classes can be used interchangeably as long as they implement the same interface — Python favors duck typing over strict interface declarations. <code>super()</code> is the correct way to call a parent's implementation from an override, and it cooperates correctly with multiple inheritance via the MRO rather than hard-coding a parent's name.</td>
+        <td class="td-why">Use inheritance when a subclass genuinely is a specialized version of the base (an "is-a" relationship) — sharing code alone is better solved with composition. Polymorphism is what lets a function accept "any object with a <code>.read()</code> method" and work correctly whether it's a file, a socket, or a test mock.</td>
+        <td class="td-tags">override, super(), duck typing</td>
+      </tr>
+      <tr class="ref-row focus-row">
+        <td class="td-term"><span class="term-badge">Encapsulation<span class="term-flag">⚠ FOCUS</span></span></td>
+        <td class="td-what">Python has no true private members — a single leading underscore (<code>_name</code>) is convention meaning "internal, don't touch," while a double leading underscore (<code>__name</code>) triggers name mangling to <code>_ClassName__name</code>, mainly to avoid accidental collisions in subclasses rather than to enforce real privacy. <code>@property</code> is the idiomatic way to add validation or computed logic to attribute access while keeping plain dot-syntax for callers.</td>
+        <td class="td-why">Use encapsulation to protect an object's internal invariants — e.g. ensuring a balance can never be set negative directly, only adjusted through a controlled method. Reach for <code>@property</code> specifically when you need logic behind what looks like plain attribute access, without breaking every existing call site.</td>
+        <td class="td-tags">name mangling, property</td>
+      </tr>
+      <tr class="ref-row focus-row">
+        <td class="td-term"><span class="term-badge">Multiple Inheritance / MRO<span class="term-flag">⚠ FOCUS</span></span></td>
+        <td class="td-what">When a class inherits from more than one parent, Python builds a Method Resolution Order — a single linear list of classes — using C3 linearization, guaranteeing an order that respects each parent's own inheritance chain. You can inspect it directly via <code>Class.__mro__</code>, and a chain of <code>super()</code> calls walks this list rather than jumping straight to "the" parent, which is what makes cooperative mixins work correctly.</td>
+        <td class="td-why">Matters most with mixin classes — small classes designed purely to be combined with others to add one capability (e.g. a <code>LoggingMixin</code>). Understanding MRO is essential for debugging "why did my parent's method run instead of my mixin's," a notoriously confusing bug class without knowing the resolution order Python actually computed.</td>
+        <td class="td-tags">mixin, super() chain</td>
+      </tr>
+      <tr class="ref-row">
+        <td class="td-term">SOLID Principles</td>
+        <td class="td-what">Five design guidelines, not language features: Single Responsibility (one reason to change), Open/Closed (extend via new code, not edits to tested code), Liskov Substitution (a subclass must be usable anywhere its parent is), Interface Segregation (many small interfaces beat one large one), Dependency Inversion (depend on abstractions, not concrete implementations). None are enforced by the interpreter — they're architectural discipline you apply deliberately.</td>
+        <td class="td-why">Apply SOLID thinking when a codebase will grow or be maintained by more than just you — it specifically targets the ripple effect where one change breaks unrelated code. It matters less for a one-off script, more as soon as there are tests, multiple contributors, or a long lifespan involved.</td>
+        <td class="td-tags">SRP, OCP, LSP, ISP, DIP</td>
+      </tr>
+      <tr class="ref-row">
+        <td class="td-term">Creational Patterns</td>
+        <td class="td-what">Control the process of object instantiation itself. Singleton restricts a class to one shared instance (often checked in <code>__new__</code>); Factory centralizes object creation behind a function or method so calling code doesn't need to know the concrete class it gets back.</td>
+        <td class="td-why">Use Singleton sparingly — for genuinely single shared resources like config or a connection pool — since overuse makes testing harder via hidden global state. Use Factory when the class to instantiate depends on runtime conditions, so callers depend on an abstraction instead of a long <code>if/elif</code> chain of constructors.</td>
+        <td class="td-tags">Singleton, Factory</td>
+      </tr>
+      <tr class="ref-row">
+        <td class="td-term">Structural Patterns</td>
+        <td class="td-what">Compose objects and classes into larger structures while keeping them flexible. Adapter wraps an object with an incompatible interface so it matches what your code expects, without modifying the original. Facade sits in front of a complex subsystem and exposes one simple, unified interface to callers.</td>
+        <td class="td-why">Reach for Adapter when integrating a library or legacy code whose signatures don't match your codebase — it isolates the mismatch in one place instead of scattering conditionals everywhere. Reach for Facade when a subsystem (e.g. a multi-step payment flow) has grown complex enough that most callers only need one entry point.</td>
+        <td class="td-tags">Adapter, Facade</td>
+      </tr>
+      <tr class="ref-row">
+        <td class="td-term">Behavioral Patterns</td>
+        <td class="td-what">Govern how objects communicate and delegate responsibility. Observer defines a one-to-many dependency: when a "subject" changes state, registered "observers" are notified automatically without the subject knowing their concrete types. Strategy defines a family of interchangeable algorithms behind a common interface, swappable at runtime.</td>
+        <td class="td-why">Use Observer for event-driven systems — UI updates, pub/sub messaging, side effects triggered by a state change. Use Strategy when several ways exist to perform the same task (sorting, pricing, validation) and you want to choose between them without a long conditional chain in the caller.</td>
+        <td class="td-tags">Observer, Strategy</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="section-wrap accent-3" id="sec3">
+  <div class="section-banner">
+    <div class="banner-left" style="position:relative">
+      <div class="section-num">03</div>
+      <div class="banner-tag">Domain 03</div>
+      <div class="banner-title">DSA OPTIMIZATION</div>
+      <div class="banner-sub">Understanding data structures deeply enough to write elite, efficient software.</div>
+    </div>
+    <div class="banner-right">
+      <div class="banner-stat"><div class="banner-stat-num">8</div><div class="banner-stat-label">Concepts</div></div>
+      <div class="banner-stat"><div class="banner-stat-num">0</div><div class="banner-stat-label">Focus</div></div>
+    </div>
+  </div>
+
+  <table class="ref-table">
+    <thead><tr><th class="th-term">TERM</th><th class="th-what">MECHANISM</th><th class="th-why">WHY / WHEN IT MATTERS</th><th class="th-tags">KEY TERMS</th></tr></thead>
+    <tbody>
+      <tr class="ref-row">
+        <td class="td-term">Big O Notation</td>
+        <td class="td-what">Describes how runtime or memory use grows as input size <em>n</em> grows, focusing on the dominant term and ignoring constants — <code>O(n)</code> and <code>O(2n+5)</code> are both just "linear." It's a worst-case (or average-case) bound, not a stopwatch measurement, letting you reason about scalability independent of hardware.</td>
+        <td class="td-why">You need this the moment data size is unknown or could grow — an <code>O(n²)</code> algorithm fine on 100 items can become unusable at 100,000. Use it to compare algorithm choices before writing code, and to explain in review exactly why one approach will or won't scale.</td>
+        <td class="td-tags">O(1) O(n) O(log n) O(n²)</td>
+      </tr>
+      <tr class="ref-row">
+        <td class="td-term"><code>list</code></td>
+        <td class="td-what">A dynamic array — a contiguous memory block that over-allocates extra space so most <code>.append()</code> calls are <code>O(1)</code> amortized, but inserting/deleting at the front or middle is <code>O(n)</code> since every subsequent element shifts. Indexing by position is <code>O(1)</code>, direct memory address arithmetic.</td>
+        <td class="td-why">Use as the default sequence for anything mostly appended to and iterated over. Avoid repeatedly inserting/removing from the front of a large list — reach for <code>collections.deque</code> instead, <code>O(1)</code> at both ends.</td>
+        <td class="td-tags">array, amortized append</td>
+      </tr>
+      <tr class="ref-row">
+        <td class="td-term"><code>dict</code> / <code>set</code></td>
+        <td class="td-what">Both built on hash tables — a key's <code>hash()</code> determines which "bucket" it lands in, giving <code>O(1)</code> average lookup/insert/delete regardless of size, at the cost of <code>O(n)</code> worst-case with many collisions. Fundamentally different from a list's <code>O(n)</code> linear scan.</td>
+        <td class="td-why">Reach for these whenever checking "does this exist" or "have I seen this before" — deduplicating, counting, looking up by ID. Rule of thumb: if you're calling <code>in</code> on a list inside a loop, you almost certainly want a set instead.</td>
+        <td class="td-tags">hash table, collision</td>
+      </tr>
+      <tr class="ref-row">
+        <td class="td-term"><code>tuple</code></td>
+        <td class="td-what">Like a list but immutable — once created its contents can't change, so Python can compute and cache its hash once, making it usable as a dict key or set member (something a mutable list never can). Immutability lets the interpreter make internal optimizations since contents won't shift underneath it.</td>
+        <td class="td-why">Use when data has a fixed, meaningful structure (a coordinate pair, an RGB triple) and you want to signal "don't mutate this." Use specifically as a dict key when keying on a combination of values, like an <code>(x, y)</code> grid position — a list could never do this.</td>
+        <td class="td-tags">immutability, hashable</td>
+      </tr>
+      <tr class="ref-row">
+        <td class="td-term">Trees / Graphs / Tries / Linked Lists</td>
+        <td class="td-what">Pointer-based structures where nodes hold references to other nodes rather than living in one contiguous block. Trees organize nodes hierarchically; graphs generalize to arbitrary many-to-many connections; tries organize nodes by shared sequence prefixes (usually strings); linked lists chain nodes one after another, giving <code>O(1)</code> insertion at a known position without shifting.</td>
+        <td class="td-why">Trees for hierarchies (file systems, org charts) and keeping sorted data searchable in <code>O(log n)</code>. Graphs for networks (social graphs, road maps) traversed with BFS/DFS. Tries for fast prefix search (autocomplete). Linked lists specifically when you need frequent mid-sequence insertion/deletion without list's shifting cost.</td>
+        <td class="td-tags">BFS, DFS, node, edge</td>
+      </tr>
+      <tr class="ref-row">
+        <td class="td-term">Divide &amp; Conquer</td>
+        <td class="td-what">Recursively splits a problem into smaller independent subproblems of the same type, solves each (often recursively, to a trivial base case), then combines the sub-results into the final answer. Efficiency usually comes from a cheap combine step relative to the size reduction achieved by splitting.</td>
+        <td class="td-why">The paradigm behind merge sort and binary search — <code>O(n log n)</code> or better, versus naive <code>O(n²)</code> or <code>O(n)</code>. Reach for it whenever solving smaller versions of a problem then merging is easier or faster than solving it directly.</td>
+        <td class="td-tags">recursion, merge sort</td>
+      </tr>
+      <tr class="ref-row">
+        <td class="td-term">Greedy Algorithms</td>
+        <td class="td-what">Builds a solution step by step, choosing whatever looks best right now, never reconsidering that choice later — no backtracking, no exploring alternatives. Fast, but only produces the true optimal answer when the problem has "optimal substructure," meaning a locally optimal choice guarantees a globally optimal one.</td>
+        <td class="td-why">Use for problems like activity scheduling or making change with standard coin denominations, where the greedy choice is provably optimal. Be cautious applying greedy logic where it isn't provably correct (certain knapsack variants) — it runs fast but may silently give a wrong answer.</td>
+        <td class="td-tags">scheduling, coin change</td>
+      </tr>
+      <tr class="ref-row">
+        <td class="td-term">Dynamic Programming</td>
+        <td class="td-what">Solves problems with overlapping subproblems by storing (memoizing) each subproblem's result the first time it's computed, so later requests for the same subproblem are <code>O(1)</code> lookups instead of recomputation. Can be top-down (recursion + cache — what <code>@lru_cache</code> automates) or bottom-up (iteratively filling a table from the smallest subproblems up).</td>
+        <td class="td-why">Reach for DP when a naive recursive solution would recompute the same subproblem exponentially many times — Fibonacci, the knapsack problem, edit distance. The signal to look for: if your recursion tree keeps hitting the exact same inputs, DP turns exponential blowup into polynomial time.</td>
+        <td class="td-tags">memoization, tabulation</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="section-wrap accent-4" id="sec4">
+  <div class="section-banner">
+    <div class="banner-left" style="position:relative">
+      <div class="section-num">04</div>
+      <div class="banner-tag">Domain 04</div>
+      <div class="banner-title">CONCURRENCY &amp; PARALLELISM</div>
+      <div class="banner-sub">The GIL changes the rules — knowing which tool fits which bottleneck.</div>
+    </div>
+    <div class="banner-right">
+      <div class="banner-stat"><div class="banner-stat-num">4</div><div class="banner-stat-label">Concepts</div></div>
+      <div class="banner-stat"><div class="banner-stat-num">1</div><div class="banner-stat-label">Focus</div></div>
+    </div>
+  </div>
+
+  <table class="ref-table">
+    <thead><tr><th class="th-term">TERM</th><th class="th-what">MECHANISM</th><th class="th-why">WHY / WHEN IT MATTERS</th><th class="th-tags">KEY TERMS</th></tr></thead>
+    <tbody>
+      <tr class="ref-row">
+        <td class="td-term">GIL</td>
+        <td class="td-what">CPython's Global Interpreter Lock ensures only one thread executes Python bytecode at any instant, even on a multi-core machine — threads take turns, switching periodically or when a thread performs blocking I/O. This keeps CPython's internal memory management simple and thread-safe, but means Python threads don't get true parallel execution of Python code.</td>
+        <td class="td-why">Explains a common surprise: adding threads to a CPU-bound task (heavy number crunching) won't make it faster, and can even slow it slightly via context-switching overhead. Essential background before choosing between threading, multiprocessing, or asyncio.</td>
+        <td class="td-tags">Global Interpreter Lock</td>
+      </tr>
+      <tr class="ref-row">
+        <td class="td-term">Multithreading</td>
+        <td class="td-what"><code>threading</code> runs multiple threads within the same process, sharing memory — cheap to create, great for tasks that spend most time waiting (network/disk I/O), since a blocked thread releases the GIL and lets another run. Shared memory means explicit synchronization (<code>Lock</code>, <code>RLock</code>, <code>Semaphore</code>) is needed to avoid race conditions.</td>
+        <td class="td-why">Use for I/O-bound workloads — many concurrent API calls, scraping multiple pages, simultaneous file reads — where the bottleneck is waiting on external systems, not computation. Wrong tool for CPU-bound work because of the GIL constraint above.</td>
+        <td class="td-tags">Thread, Lock, race condition</td>
+      </tr>
+      <tr class="ref-row">
+        <td class="td-term">Multiprocessing</td>
+        <td class="td-what"><code>multiprocessing</code> spins up entirely separate OS processes, each with its own interpreter and memory space, so each has its own GIL and true parallel execution across cores is possible. Processes can't directly share memory — data must be explicitly serialized (pickled) and passed via queues or pipes, and startup is heavier than a thread's.</td>
+        <td class="td-why">Use for CPU-bound workloads needing real parallel speedup — image processing, numerical computation, heavy data transformation across cores. Inter-process communication overhead means it's not worth it for lightweight, frequent, small tasks — that's where threading or async wins.</td>
+        <td class="td-tags">Process, Pool, IPC</td>
+      </tr>
+      <tr class="ref-row focus-row">
+        <td class="td-term"><span class="term-badge">Async / Await<span class="term-flag">⚠ FOCUS</span></span></td>
+        <td class="td-what"><code>asyncio</code> runs a single-threaded event loop managing many coroutines cooperatively — a coroutine (<code>async def</code>) runs until it hits an <code>await</code> on an I/O operation, voluntarily yielding control back to the loop, which runs another ready coroutine. Nothing is preemptively interrupted; coroutines cooperate at <code>await</code> points, which is why a long CPU-bound calculation inside one blocks the entire event loop.</td>
+        <td class="td-why">Use when managing thousands of concurrent I/O-bound connections with minimal memory overhead — web servers, API gateways, chat apps — since coroutines are far lighter than OS threads. Not a substitute for multiprocessing on CPU-bound work, since an await point never appears in pure computation and the loop just stalls.</td>
+        <td class="td-tags">coroutine, await, event loop</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="section-wrap accent-5" id="sec5">
+  <div class="section-banner">
+    <div class="banner-left" style="position:relative">
+      <div class="section-num">05</div>
+      <div class="banner-tag">Domain 05</div>
+      <div class="banner-title">ENGINEERING PRACTICE</div>
+      <div class="banner-sub">Writing code that lasts, ships safely, and collaborates well.</div>
+    </div>
+    <div class="banner-right">
+      <div class="banner-stat"><div class="banner-stat-num">4</div><div class="banner-stat-label">Concepts</div></div>
+      <div class="banner-stat"><div class="banner-stat-num">0</div><div class="banner-stat-label">Focus</div></div>
+    </div>
+  </div>
+
+  <table class="ref-table">
+    <thead><tr><th class="th-term">TERM</th><th class="th-what">MECHANISM</th><th class="th-why">WHY / WHEN IT MATTERS</th><th class="th-tags">KEY TERMS</th></tr></thead>
+    <tbody>
+      <tr class="ref-row">
+        <td class="td-term">Testing &amp; Mocking</td>
+        <td class="td-what"><code>pytest</code>/<code>unittest</code> let you write functions asserting expected vs. actual output, running your codebase's behavior automatically instead of manually clicking through it. <code>unittest.mock</code> replaces a real dependency (a DB call, an API request, the current time) with a fake object returning exactly what you tell it, so a test verifies logic in isolation from things outside your control.</td>
+        <td class="td-why">Write tests before or alongside any code you'll change again — they make refactoring safe instead of terrifying, since you find out immediately if something broke. Mock anything slow, non-deterministic, costly, or network-dependent so the suite stays fast and reliable.</td>
+        <td class="td-tags">fixture, assert, patch</td>
+      </tr>
+      <tr class="ref-row">
+        <td class="td-term">Type Hinting</td>
+        <td class="td-what">The <code>typing</code> module lets you annotate variables, parameters, and returns with expected types (<code>List[int]</code>, <code>Optional[str]</code>, custom <code>Protocol</code> classes), which the interpreter does not enforce at runtime — hints are purely for humans and tools. A static checker like <code>mypy</code> reads these and flags mismatches before you ever run the code.</td>
+        <td class="td-why">Add hints to any function whose inputs/outputs aren't obvious from its name, and to any public API others call — it turns the signature itself into documentation. Run <code>mypy</code> in CI on a growing codebase to catch an entire class of bugs before runtime.</td>
+        <td class="td-tags">static typing, mypy</td>
+      </tr>
+      <tr class="ref-row">
+        <td class="td-term">Metaprogramming</td>
+        <td class="td-what">Classes are themselves objects created by a metaclass (<code>type</code> by default), so you can customize how classes get built via a custom metaclass or <code>__init_subclass__</code> — both intercept and modify class creation itself, not just instance creation. This is code that writes/modifies code at the class-definition level, run once when the <code>class</code> statement executes.</td>
+        <td class="td-why">Advanced and rarely needed in everyday code — reach for it building frameworks or libraries, like an ORM auto-registering every model subclass, or a plugin system validating that subclasses implement required methods. If you want metaclasses for typical application code, a decorator or mixin usually solves it with far less complexity.</td>
+        <td class="td-tags">metaclass, __new__</td>
+      </tr>
+      <tr class="ref-row">
+        <td class="td-term">Clean Code Standards</td>
+        <td class="td-what">PEP 8 is Python's official style guide covering naming, whitespace, line length, and layout. Linters like Ruff/Flake8 statically analyze code against these (and other) rules without running it, flagging violations and potential bugs. Formatters like Black automatically rewrite code to a consistent style, removing debate about formatting.</td>
+        <td class="td-why">Run a linter and formatter as part of normal workflow (on save, or a pre-commit hook) so style issues never reach code review — freeing reviewers to focus on logic. Consistency matters most the moment more than one person touches a codebase, or you return to your own code months later.</td>
+        <td class="td-tags">linting, formatting</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="section-wrap accent-6" id="sec6">
+  <div class="section-banner">
+    <div class="banner-left" style="position:relative">
+      <div class="section-num">06</div>
+      <div class="banner-tag">Domain 06</div>
+      <div class="banner-title">SYSTEM ARCHITECTURE &amp; ECOSYSTEM</div>
+      <div class="banner-sub">How Python talks to databases, networks, and deployment environments.</div>
+    </div>
+    <div class="banner-right">
+      <div class="banner-stat"><div class="banner-stat-num">3</div><div class="banner-stat-label">Concepts</div></div>
+      <div class="banner-stat"><div class="banner-stat-num">0</div><div class="banner-stat-label">Focus</div></div>
+    </div>
+  </div>
+
+  <table class="ref-table">
+    <thead><tr><th class="th-term">TERM</th><th class="th-what">MECHANISM</th><th class="th-why">WHY / WHEN IT MATTERS</th><th class="th-tags">KEY TERMS</th></tr></thead>
+    <tbody>
+      <tr class="ref-row">
+        <td class="td-term">DB Integration &amp; ORMs</td>
+        <td class="td-what">An ORM like <b>SQLAlchemy</b> maps Python classes to database tables and instances to rows, translating method/attribute access into SQL behind the scenes, and manages a connection pool so the app reuses connections instead of opening a new one per request. Migrations (e.g. Alembic) track schema changes as versioned, applyable scripts so the database evolves alongside the code.</td>
+        <td class="td-why">Use an ORM to avoid raw SQL strings scattered through the codebase, and to get protection against SQL injection by default via parameterized queries. Learn to read the SQL your ORM actually generates once the app scales — an innocent-looking query can quietly generate a slow N+1 query problem that only shows up under real load.</td>
+        <td class="td-tags">ORM, migrations, conn pool</td>
+      </tr>
+      <tr class="ref-row">
+        <td class="td-term">API Design</td>
+        <td class="td-what">RESTful APIs organize functionality around resources (nouns) accessed via HTTP verbs (GET, POST, PUT, DELETE); GraphQL exposes one endpoint where the client specifies exactly which fields it needs. <b>FastAPI</b> builds on Python type hints to validate incoming data automatically and generate interactive OpenAPI docs for free, and is async-native from the ground up.</td>
+        <td class="td-why">Choose REST for simplicity and wide tooling support when data maps cleanly onto resources; choose GraphQL when clients need flexible, varying data combinations and you want to avoid over/under-fetching. FastAPI is a strong default for new Python backends given the combination of speed, validation, and docs with very little boilerplate.</td>
+        <td class="td-tags">REST, GraphQL, OpenAPI</td>
+      </tr>
+      <tr class="ref-row">
+        <td class="td-term">Automation &amp; Scripting</td>
+        <td class="td-what">CI/CD pipelines (e.g. GitHub Actions) run a defined sequence — install deps, test, lint, build, deploy — automatically on push or PR, via YAML config living in the repo itself. ETL and general automation scripts apply the same idea to data/ops tasks: replace a manual, repeatable human process with code that runs identically every time.</td>
+        <td class="td-why">Set up CI to run your test suite and linter on every push so broken code is caught before it merges, not after deploy. Reach for automation anywhere you find yourself doing the same multi-step manual task more than twice — the scripting time pays back quickly and removes human error.</td>
+        <td class="td-tags">pipeline, cron, workflow</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div id="footer">
+  <span>Damian Thulani · Zero to Senior Engineer · Python Mastery Reference</span>
+  <span>laughtale.co.za</span>
+</div>
+
+</body>
+</html>

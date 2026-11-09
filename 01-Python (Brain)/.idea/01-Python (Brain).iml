@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="PYTHON_MODULE" version="4">
+  <component name="NewModuleRootManager">
+    <content url="file://$MODULE_DIR$">
+      <excludeFolder url="file://$MODULE_DIR$/01-Foundation Notes/Exercises/.venv" />
+      <excludeFolder url="file://$MODULE_DIR$/02-Data Structures &amp; Algorithms/.venv" />
+      <excludeFolder url="file://$MODULE_DIR$/Practical/Micro-Scenerios/.venv" />
+      <excludeFolder url="file://$MODULE_DIR$/Practical/Practice/Memory/prac1/.venv" />
+      <excludeFolder url="file://$MODULE_DIR$/Practical/Practice/PostGreSQL/prac1/.venv" />
+      <excludeFolder url="file://$MODULE_DIR$/Practical/Practice/flask-quickstart/.venv" />
+      <excludeFolder url="file://$MODULE_DIR$/Practical/Projects/2-To-do-list/.venv" />
+      <excludeFolder url="file://$MODULE_DIR$/.venv" />
+    </content>
+    <orderEntry type="jdk" jdkName="Python 3.14 (01-Python (Brain))" jdkType="Python SDK" />
+    <orderEntry type="sourceFolder" forTests="false" />
+  </component>
+  <component name="PyDocumentationSettings">
+    <option name="format" value="GOOGLE" />
+    <option name="myDocStringFormat" value="Google" />
+  </component>
+</module>

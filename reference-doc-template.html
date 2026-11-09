@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>[DOCUMENT TITLE] · [YOUR NAME]</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=JetBrains+Mono:ital,wght@0,300;0,400;0,500;0,700;1,400&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════════════════════════════════
+   REUSABLE PRINT-REFERENCE TEMPLATE — "Dark Terminal" design system
+   Built from: 120-Day Study Calendar → Python Mastery Reference
+
+   HOW TO USE THIS FILE
+   1. Find/replace every [BRACKETED PLACEHOLDER] with your content.
+   2. Duplicate a <div class="section-wrap accent-N"> block for each
+      domain/category you need. N can be 1–6 (six accent colors are
+      pre-defined below) — add more --c7/--c8 pairs in :root if you
+      need a 7th or 8th color.
+   3. Duplicate a <tr class="ref-row"> for each row in a table.
+      Add class="ref-row focus-row" to highlight an important row
+      (renders with a gold left border + "⚠ FOCUS" flag — reuse this
+      for "high-priority", "weak spot", "exam topic", whatever fits).
+   4. Update the #nav links and the cover's doc-chips/meta-pills to
+      match however many sections you end up with.
+   5. Table columns are generic: TERM / WHAT / WHY / TAGS. Rename the
+      <th> labels to fit your content (e.g. "STEP / DETAIL / RESULT").
+   6. Print: the ⎙ button triggers window.print(). Cover page prints
+      portrait; section pages print A4 landscape automatically.
+═══════════════════════════════════════════════════════════════════ */
+:root {
+  --bg:      #080C16;
+  --surface: #101828;
+  --card:    #141E30;
+  --border:  #1E2D45;
+  --teal:    #3FEFBF;   /* accent used for cover + focus-row flag */
+  --gold:    #F5B731;   /* focus-row highlight color */
+  --text:    #6296ea;
+  --muted:   #6B7A99;
+
+  /* Six ready-made accent pairs: --cN = accent color, --cNb = its dim border shade.
+     Add --c7/--c7b, --c8/--c8b etc. here if you need more than 6 sections. */
+  --c1:#5BBFED; --c1b:#1B4E6E;   /* blue */
+  --c2:#C084FC; --c2b:#4A2060;   /* purple */
+  --c3:#FB923C; --c3b:#7A3E00;   /* orange */
+  --c4:#4DCFA4; --c4b:#1A5C38;   /* green */
+  --c5:#F5B731; --c5b:#7A5A00;   /* gold */
+  --c6:#FF6B6B; --c6b:#6E1A1A;   /* crimson */
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  line-height: 1.5;
+  background-image:
+    linear-gradient(rgba(63,239,191,.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(63,239,191,.03) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+
+/* ─── COVER ──────────────────────────────────────────────── */
+#cover {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 60px 80px;
+  position: relative;
+  overflow: hidden;
+  border-bottom: 2px solid var(--border);
+}
+#cover::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 60% 60% at 80% 40%, rgba(63,239,191,.07) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 40% at 20% 80%, rgba(245,183,49,.05) 0%, transparent 70%);
+}
+.cover-label {
+  font-size: 11px; letter-spacing: .18em; text-transform: uppercase;
+  color: var(--teal); margin-bottom: 24px; display: flex; align-items: center; gap: 12px;
+}
+.cover-label::before { content:''; display:block; width:32px; height:1px; background: var(--teal); }
+.cover-title {
+  font-family: 'Bebas Neue', sans-serif; font-size: clamp(72px, 10vw, 120px);
+  line-height: .9; letter-spacing: .02em; color: var(--text); margin-bottom: 8px;
+}
+.cover-title span { color: var(--teal); } /* wrap the "hook" word of your title in this span */
+.cover-sub {
+  font-family: 'Bebas Neue', sans-serif; font-size: clamp(28px, 4vw, 44px);
+  color: var(--muted); letter-spacing: .06em; margin-bottom: 40px;
+}
+.cover-meta { display: flex; flex-wrap: wrap; gap: 24px; margin-bottom: 48px; }
+.meta-pill { background: var(--card); border: 1px solid var(--border); border-radius: 4px; padding: 10px 20px; font-size: 12px; color: var(--muted); }
+.meta-pill strong { color: var(--gold); font-size: 22px; display: block; }
+.cover-legend { display: flex; gap: 32px; flex-wrap: wrap; border-top: 1px solid var(--border); padding-top: 32px; width: 100%; }
+.legend-item { display: flex; align-items: center; gap: 10px; font-size: 12px; color: var(--muted); }
+.legend-dot { width: 12px; height: 12px; border-radius: 2px; flex-shrink: 0; }
+.cover-docs { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 40px; }
+.doc-chip { font-size: 10px; letter-spacing: .08em; text-transform: uppercase; padding: 6px 14px; border-radius: 2px; border: 1px solid; }
+
+/* ─── NAV ────────────────────────────────────────────────── */
+#nav {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(8,12,22,.92); backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; padding: 0 40px; height: 52px; gap: 4px; flex-wrap: wrap;
+}
+.nav-logo { font-family: 'Bebas Neue', sans-serif; font-size: 18px; letter-spacing: .08em; color: var(--teal); margin-right: 24px; }
+.nav-btn {
+  font-size: 10.5px; letter-spacing: .05em; color: var(--muted); background: none; border: none;
+  cursor: pointer; padding: 6px 10px; border-radius: 3px; transition: all .2s; text-transform: uppercase;
+  text-decoration: none; display: inline-block;
+}
+.nav-btn:hover { color: var(--text); background: var(--card); }
+.print-btn {
+  margin-left: auto; font-size: 11px; letter-spacing: .06em; color: var(--bg); background: var(--teal);
+  border: none; cursor: pointer; padding: 7px 18px; border-radius: 3px; font-weight: 700; text-transform: uppercase;
+}
+.print-btn:hover { background: #5fffcf; }
+
+/* ─── SECTION WRAPPER + ACCENT SYSTEM ────────────────────── */
+.section-wrap { padding: 0 32px 64px; }
+.section-wrap.accent-1 { --accent: var(--c1); --accent-b: var(--c1b); }
+.section-wrap.accent-2 { --accent: var(--c2); --accent-b: var(--c2b); }
+.section-wrap.accent-3 { --accent: var(--c3); --accent-b: var(--c3b); }
+.section-wrap.accent-4 { --accent: var(--c4); --accent-b: var(--c4b); }
+.section-wrap.accent-5 { --accent: var(--c5); --accent-b: var(--c5b); }
+.section-wrap.accent-6 { --accent: var(--c6); --accent-b: var(--c6b); }
+
+.section-banner {
+  padding: 48px 0 32px; display: flex; align-items: flex-end; justify-content: space-between;
+  border-bottom: 2px solid var(--accent-b, var(--border)); margin-bottom: 24px; flex-wrap: wrap; gap: 16px;
+}
+.section-num { font-family: 'Bebas Neue', sans-serif; font-size: 100px; line-height: 1; opacity: .08; position: absolute; right: 60px; top: 0; letter-spacing: .02em; pointer-events: none; }
+.banner-left { position: relative; }
+.banner-tag { font-size: 10px; letter-spacing: .2em; text-transform: uppercase; color: var(--accent, var(--teal)); margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+.banner-tag::before { content:''; display:block; width:20px; height:1px; background: var(--accent, var(--teal)); }
+.banner-title { font-family: 'Bebas Neue', sans-serif; font-size: 48px; letter-spacing: .04em; line-height: 1; color: var(--text); }
+.banner-sub { font-size: 12px; color: var(--muted); margin-top: 6px; max-width: 640px; }
+.banner-right { display: flex; gap: 20px; }
+.banner-stat { text-align: right; }
+.banner-stat-num { font-family: 'Bebas Neue', sans-serif; font-size: 32px; color: var(--gold); }
+.banner-stat-label { font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+
+/* ─── TABLE ──────────────────────────────────────────────── */
+.ref-table { width: 100%; border-collapse: collapse; }
+.ref-table th {
+  font-size: 9px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted);
+  text-align: left; padding: 10px 16px; border-bottom: 2px solid var(--border); white-space: nowrap;
+}
+/* Rename these th classes/labels to fit your columns. Widths should add to ~100%. */
+.th-term { width: 14%; }
+.th-what { width: 33%; }
+.th-why  { width: 35%; }
+.th-tags { width: 18%; }
+
+.ref-row { border-bottom: 1px solid rgba(30,45,69,.7); transition: background .15s; vertical-align: top; }
+.ref-row:hover { background: rgba(63,239,191,.03); }
+.ref-row.focus-row { background: rgba(245,183,49,.04); border-bottom: 1px solid rgba(245,183,49,.15); border-top: 1px solid rgba(245,183,49,.15); }
+.ref-row.focus-row:hover { background: rgba(245,183,49,.07); }
+
+td { padding: 11px 16px; vertical-align: top; }
+.td-term { font-family: 'Bebas Neue', sans-serif; font-size: 17px; letter-spacing: .02em; color: var(--text); padding-top: 12px; line-height: 1.15; }
+.term-badge { display: inline-flex; flex-direction: column; gap: 2px; }
+.term-flag { font-size: 7px; letter-spacing: .12em; color: var(--gold); text-transform: uppercase; font-family: 'JetBrains Mono', monospace; }
+
+.td-what, .td-why { font-size: 11.5px; color: var(--text); line-height: 1.55; }
+.td-what code, .td-why code { font-size: 10px; color: var(--teal); background: rgba(63,239,191,.08); padding: 1px 4px; border-radius: 2px; }
+
+.td-tags { font-size: 10.5px; color: var(--muted); line-height: 1.6; font-style: italic; }
+
+.ref-row td:first-child { border-left: 3px solid transparent; }
+.ref-row.focus-row td:first-child { border-left: 3px solid var(--gold); }
+
+/* ─── FOOTER ─────────────────────────────────────────────── */
+#footer { border-top: 1px solid var(--border); padding: 32px 80px; display: flex; justify-content: space-between; align-items: center; font-size: 11px; color: var(--muted); }
+
+/* ═══════════════════════════════════════════════════════════
+   PRINT STYLES — A4 LANDSCAPE (cover prints portrait)
+═══════════════════════════════════════════════════════════ */
+@media print {
+  @page { size: A4 landscape; margin: 8mm 10mm 8mm 10mm; }
+  @page :first { size: A4 portrait; margin: 0; }
+  * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+  html, body { background: #fff !important; color: #000 !important; font-size: 7pt; line-height: 1.3; background-image: none !important; }
+  #nav, .print-btn, #footer { display: none !important; }
+  #cover { width: 210mm; height: 297mm; min-height: 0; padding: 28mm 24mm; background: #0A0B14 !important; color: #fff !important; page-break-after: always; border: none; display: flex !important; justify-content: center; }
+  #cover::before { display: none; }
+  .cover-label { color: #3FEFBF !important; }
+  .cover-label::before { background: #3FEFBF !important; }
+  .cover-title { font-size: 72pt; color: #E2E8F2 !important; }
+  .cover-title span { color: #3FEFBF !important; }
+  .cover-sub { color: #6B7A99 !important; font-size: 20pt; }
+  .meta-pill { background: #141E30 !important; border-color: #1E2D45 !important; color: #6B7A99 !important; }
+  .meta-pill strong { color: #F5B731 !important; }
+  .cover-legend { border-color: #1E2D45 !important; }
+  .legend-item { color: #6B7A99 !important; }
+  .doc-chip { font-size: 8pt; }
+  .section-wrap { padding: 0; page-break-before: always; }
+  .section-banner { padding: 6mm 0 4mm; margin-bottom: 3mm; border-bottom: 1.5pt solid #ddd; page-break-after: avoid; }
+  .section-num { display: none; }
+  .banner-tag { color: #555 !important; font-size: 6pt; }
+  .banner-tag::before { background: #555 !important; }
+  .banner-title { font-size: 22pt; color: #000 !important; }
+  .banner-sub { color: #555 !important; font-size: 6.5pt; }
+  .banner-stat-num { color: #555 !important; font-size: 16pt; }
+  .banner-stat-label { color: #888 !important; }
+  .doc-chip { border-color: #ccc !important; color: #555 !important; }
+  .ref-table { width: 100%; border-collapse: collapse; }
+  .ref-table th { font-size: 6pt; letter-spacing: .08em; padding: 2mm 2.5mm; border-bottom: 1pt solid #888; color: #444 !important; background: #f8f8f8; page-break-after: avoid; }
+  td { padding: 1.8mm 2.5mm; border-bottom: .5pt solid #e0e0e0; vertical-align: top; }
+  .ref-row { border-bottom: .5pt solid #e0e0e0; }
+  .ref-row.focus-row { background: #FFFBEA !important; border-top: .5pt solid #F5B731 !important; border-bottom: .5pt solid #F5B731 !important; }
+  .ref-row.focus-row td:first-child { border-left: 2pt solid #F5B731; }
+  .ref-row td:first-child { border-left: 2pt solid transparent; padding-left: 3mm; }
+  .td-term { font-size: 9.5pt; color: #000 !important; padding-top: 2mm; }
+  .term-flag { color: #C08000 !important; }
+  .td-what, .td-why { font-size: 6.6pt; color: #111 !important; line-height: 1.32; }
+  .td-what code, .td-why code { color: #0A6E5A !important; background: none; padding: 0; }
+  .td-tags { font-size: 6pt; color: #555 !important; line-height: 1.3; font-style: italic; }
+  .ref-row.focus-row .td-tags { color: #7A5000 !important; }
+  .th-term { width: 13%; } .th-what { width: 32%; } .th-why { width: 36%; } .th-tags { width: 19%; }
+  .ref-row { page-break-inside: avoid; }
+  thead { display: table-header-group; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════ COVER — edit label / title / sub / pills / chips / legend ═══════════════ -->
+<div id="cover">
+  <div class="cover-label">[SERIES OR PROJECT NAME] · [YOUR SITE OR HANDLE]</div>
+  <div class="cover-title">[MAIN<br><span>TITLE</span></div>
+  <div class="cover-sub">[SUBTITLE / DOCUMENT TYPE]</div>
+
+  <div class="cover-meta">
+    <div class="meta-pill"><strong>[N]</strong> [Sections]</div>
+    <div class="meta-pill"><strong>[N]</strong> [Items]</div>
+    <div class="meta-pill"><strong>[N]</strong> [Focus/Flagged]</div>
+  </div>
+
+  <div class="cover-docs">
+    <!-- One chip per section. Match the border/text color to that section's --cN value. -->
+    <div class="doc-chip" style="color:#5BBFED;border-color:#1B4E6E">01 · [SECTION NAME]</div>
+    <div class="doc-chip" style="color:#C084FC;border-color:#4A2060">02 · [SECTION NAME]</div>
+    <div class="doc-chip" style="color:#FB923C;border-color:#7A3E00">03 · [SECTION NAME]</div>
+  </div>
+
+  <div class="cover-legend">
+    <div class="legend-item">
+      <div class="legend-dot" style="background:var(--teal)"></div>
+      [Explain your row structure, e.g. "Each row: TERM → DETAIL → RESULT → TAGS"]
+    </div>
+    <div class="legend-item">
+      <div class="legend-dot" style="background:var(--gold)"></div>
+      [Explain what gold "focus" rows mean in this document]
+    </div>
+    <div class="legend-item" style="margin-left:auto;font-size:11px;color:var(--muted)">
+      Print: Chrome/Edge → Print → A4 · Background graphics ON · Landscape
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════ NAV — one link per section, keep in sync with #ids below ═══════════════ -->
+<div id="nav">
+  <div class="nav-logo">[SHORT LOGO]</div>
+  <a class="nav-btn" href="#sec1">01 · [Short Label]</a>
+  <a class="nav-btn" href="#sec2">02 · [Short Label]</a>
+  <a class="nav-btn" href="#sec3">03 · [Short Label]</a>
+  <button class="print-btn" onclick="window.print()">⎙ Print A4</button>
+</div>
+
+<!-- ═══════════════ SECTION TEMPLATE — copy this whole block per section ═══════════════
+     Change: id="secN", class="accent-N" (1-6), the "01" section-num, banner-tag, title,
+     sub, and the two banner-stat numbers on the right. -->
+<div class="section-wrap accent-1" id="sec1">
+  <div class="section-banner">
+    <div class="banner-left" style="position:relative">
+      <div class="section-num">01</div>
+      <div class="banner-tag">[Category label, e.g. "Domain 01"]</div>
+      <div class="banner-title">[SECTION TITLE]</div>
+      <div class="banner-sub">[One-line description of what this section covers.]</div>
+    </div>
+    <div class="banner-right">
+      <div class="banner-stat"><div class="banner-stat-num">[N]</div><div class="banner-stat-label">[Items]</div></div>
+      <div class="banner-stat"><div class="banner-stat-num">[N]</div><div class="banner-stat-label">[Focus]</div></div>
+    </div>
+  </div>
+
+  <table class="ref-table">
+    <thead>
+      <tr>
+        <th class="th-term">[COL 1 LABEL]</th>
+        <th class="th-what">[COL 2 LABEL]</th>
+        <th class="th-why">[COL 3 LABEL]</th>
+        <th class="th-tags">[COL 4 LABEL]</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Standard row -->
+      <tr class="ref-row">
+        <td class="td-term">[Term / name]</td>
+        <td class="td-what">[2–3 sentence explanation of the mechanism, using &lt;code&gt; for inline technical terms.]</td>
+        <td class="td-why">[2–3 sentence explanation of why/when this matters in practice.]</td>
+        <td class="td-tags">[keyword, keyword, keyword]</td>
+      </tr>
+      <!-- Focus / flagged row — add the term-badge + term-flag span to highlight it -->
+      <tr class="ref-row focus-row">
+        <td class="td-term"><span class="term-badge">[Term / name]<span class="term-flag">⚠ FOCUS</span></span></td>
+        <td class="td-what">[Explanation.]</td>
+        <td class="td-why">[Explanation.]</td>
+        <td class="td-tags">[tags]</td>
+      </tr>
+      <!-- Duplicate <tr class="ref-row"> for each additional row -->
+    </tbody>
+  </table>
+</div>
+
+<!-- Duplicate the section-wrap block above for sec2, sec3, ... using accent-2, accent-3, etc. -->
+
+<div id="footer">
+  <span>[YOUR NAME] · [PROJECT NAME] · [DOCUMENT TITLE]</span>
+  <span>[yoursite.com]</span>
+</div>
+
+</body>
+</html>

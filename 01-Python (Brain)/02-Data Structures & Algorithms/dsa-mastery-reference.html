@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DSA Mastery Reference · Damian Thulani</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=JetBrains+Mono:ital,wght@0,300;0,400;0,500;0,700;1,400&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:      #080C16;
+  --surface: #101828;
+  --card:    #141E30;
+  --border:  #1E2D45;
+  --teal:    #3FEFBF;
+  --gold:    #F5B731;
+  --text:    #6296ea;
+  --muted:   #6B7A99;
+
+  --c1:#5BBFED; --c1b:#1B4E6E;
+  --c2:#C084FC; --c2b:#4A2060;
+  --c3:#FB923C; --c3b:#7A3E00;
+  --c4:#4DCFA4; --c4b:#1A5C38;
+  --c5:#F5B731; --c5b:#7A5A00;
+  --c6:#FF6B6B; --c6b:#6E1A1A;
+  --c7:#8B9EFF; --c7b:#2B3178;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  line-height: 1.5;
+  background-image:
+    linear-gradient(rgba(63,239,191,.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(63,239,191,.03) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+
+#cover {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 60px 80px;
+  position: relative;
+  overflow: hidden;
+  border-bottom: 2px solid var(--border);
+}
+#cover::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 60% 60% at 80% 40%, rgba(63,239,191,.07) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 40% at 20% 80%, rgba(245,183,49,.05) 0%, transparent 70%);
+}
+.cover-label {
+  font-size: 11px; letter-spacing: .18em; text-transform: uppercase;
+  color: var(--teal); margin-bottom: 24px; display: flex; align-items: center; gap: 12px;
+}
+.cover-label::before { content:''; display:block; width:32px; height:1px; background: var(--teal); }
+.cover-title {
+  font-family: 'Bebas Neue', sans-serif; font-size: clamp(64px, 9vw, 108px);
+  line-height: .9; letter-spacing: .02em; color: var(--text); margin-bottom: 8px;
+}
+.cover-title span { color: var(--teal); }
+.cover-sub {
+  font-family: 'Bebas Neue', sans-serif; font-size: clamp(24px, 3.6vw, 38px);
+  color: var(--muted); letter-spacing: .06em; margin-bottom: 36px;
+}
+.cover-meta { display: flex; flex-wrap: wrap; gap: 24px; margin-bottom: 40px; }
+.meta-pill { background: var(--card); border: 1px solid var(--border); border-radius: 4px; padding: 10px 20px; font-size: 12px; color: var(--muted); }
+.meta-pill strong { color: var(--gold); font-size: 22px; display: block; }
+.cover-legend { display: flex; gap: 32px; flex-wrap: wrap; border-top: 1px solid var(--border); padding-top: 28px; width: 100%; }
+.legend-item { display: flex; align-items: center; gap: 10px; font-size: 12px; color: var(--muted); }
+.legend-dot { width: 12px; height: 12px; border-radius: 2px; flex-shrink: 0; }
+.cover-docs { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 32px; }
+.doc-chip { font-size: 9.5px; letter-spacing: .07em; text-transform: uppercase; padding: 6px 12px; border-radius: 2px; border: 1px solid; }
+
+#nav {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(8,12,22,.92); backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; padding: 0 40px; height: 52px; gap: 4px; flex-wrap: wrap;
+}
+.nav-logo { font-family: 'Bebas Neue', sans-serif; font-size: 18px; letter-spacing: .08em; color: var(--teal); margin-right: 24px; }
+.nav-btn {
+  font-size: 10.5px; letter-spacing: .05em; color: var(--muted); background: none; border: none;
+  cursor: pointer; padding: 6px 10px; border-radius: 3px; transition: all .2s; text-transform: uppercase;
+  text-decoration: none; display: inline-block;
+}
+.nav-btn:hover { color: var(--text); background: var(--card); }
+.print-btn {
+  margin-left: auto; font-size: 11px; letter-spacing: .06em; color: var(--bg); background: var(--teal);
+  border: none; cursor: pointer; padding: 7px 18px; border-radius: 3px; font-weight: 700; text-transform: uppercase;
+}
+.print-btn:hover { background: #5fffcf; }
+
+.section-wrap { padding: 0 32px 64px; }
+.section-wrap.accent-1 { --accent: var(--c1); --accent-b: var(--c1b); }
+.section-wrap.accent-2 { --accent: var(--c2); --accent-b: var(--c2b); }
+.section-wrap.accent-3 { --accent: var(--c3); --accent-b: var(--c3b); }
+.section-wrap.accent-4 { --accent: var(--c4); --accent-b: var(--c4b); }
+.section-wrap.accent-5 { --accent: var(--c5); --accent-b: var(--c5b); }
+.section-wrap.accent-6 { --accent: var(--c6); --accent-b: var(--c6b); }
+.section-wrap.accent-7 { --accent: var(--c7); --accent-b: var(--c7b); }
+
+.section-banner {
+  padding: 48px 0 32px; display: flex; align-items: flex-end; justify-content: space-between;
+  border-bottom: 2px solid var(--accent-b, var(--border)); margin-bottom: 24px; flex-wrap: wrap; gap: 16px;
+}
+.section-num { font-family: 'Bebas Neue', sans-serif; font-size: 100px; line-height: 1; opacity: .08; position: absolute; right: 60px; top: 0; letter-spacing: .02em; pointer-events: none; }
+.banner-left { position: relative; }
+.banner-tag { font-size: 10px; letter-spacing: .2em; text-transform: uppercase; color: var(--accent, var(--teal)); margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+.banner-tag::before { content:''; display:block; width:20px; height:1px; background: var(--accent, var(--teal)); }
+.banner-title { font-family: 'Bebas Neue', sans-serif; font-size: 44px; letter-spacing: .04em; line-height: 1; color: var(--text); }
+.banner-sub { font-size: 12px; color: var(--muted); margin-top: 6px; max-width: 640px; }
+.banner-right { display: flex; gap: 20px; }
+.banner-stat { text-align: right; }
+.banner-stat-num { font-family: 'Bebas Neue', sans-serif; font-size: 32px; color: var(--gold); }
+.banner-stat-label { font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+
+.ref-table { width: 100%; border-collapse: collapse; }
+.ref-table th {
+  font-size: 9px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted);
+  text-align: left; padding: 10px 16px; border-bottom: 2px solid var(--border); white-space: nowrap;
+}
+.th-term { width: 15%; }
+.th-what { width: 33%; }
+.th-why  { width: 34%; }
+.th-tags { width: 18%; }
+
+.ref-row { border-bottom: 1px solid rgba(30,45,69,.7); transition: background .15s; vertical-align: top; }
+.ref-row:hover { background: rgba(63,239,191,.03); }
+.ref-row.focus-row { background: rgba(245,183,49,.04); border-bottom: 1px solid rgba(245,183,49,.15); border-top: 1px solid rgba(245,183,49,.15); }
+.ref-row.focus-row:hover { background: rgba(245,183,49,.07); }
+
+td { padding: 11px 16px; vertical-align: top; }
+.td-term { font-family: 'Bebas Neue', sans-serif; font-size: 16.5px; letter-spacing: .02em; color: var(--text); padding-top: 12px; line-height: 1.15; }
+.term-badge { display: inline-flex; flex-direction: column; gap: 2px; }
+.term-flag { font-size: 7px; letter-spacing: .12em; color: var(--gold); text-transform: uppercase; font-family: 'JetBrains Mono', monospace; }
+
+.td-what, .td-why { font-size: 11.3px; color: var(--text); line-height: 1.55; }
+.td-what code, .td-why code { font-size: 10px; color: var(--teal); background: rgba(63,239,191,.08); padding: 1px 4px; border-radius: 2px; }
+
+.td-tags { font-size: 10.3px; color: var(--muted); line-height: 1.6; font-style: italic; }
+
+.ref-row td:first-child { border-left: 3px solid transparent; }
+.ref-row.focus-row td:first-child { border-left: 3px solid var(--gold); }
+
+#footer { border-top: 1px solid var(--border); padding: 32px 80px; display: flex; justify-content: space-between; align-items: center; font-size: 11px; color: var(--muted); }
+
+@media print {
+  @page { size: A4 landscape; margin: 8mm 10mm 8mm 10mm; }
+  @page :first { size: A4 portrait; margin: 0; }
+  * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+  html, body { background: #fff !important; color: #000 !important; font-size: 7pt; line-height: 1.3; background-image: none !important; }
+  #nav, .print-btn, #footer { display: none !important; }
+  #cover { width: 210mm; height: 297mm; min-height: 0; padding: 26mm 22mm; background: #0A0B14 !important; color: #fff !important; page-break-after: always; border: none; display: flex !important; justify-content: center; }
+  #cover::before { display: none; }
+  .cover-label { color: #3FEFBF !important; }
+  .cover-label::before { background: #3FEFBF !important; }
+  .cover-title { font-size: 62pt; color: #E2E8F2 !important; }
+  .cover-title span { color: #3FEFBF !important; }
+  .cover-sub { color: #6B7A99 !important; font-size: 17pt; }
+  .meta-pill { background: #141E30 !important; border-color: #1E2D45 !important; color: #6B7A99 !important; }
+  .meta-pill strong { color: #F5B731 !important; }
+  .cover-legend { border-color: #1E2D45 !important; }
+  .legend-item { color: #6B7A99 !important; }
+  .doc-chip { font-size: 7.5pt; }
+  .section-wrap { padding: 0; page-break-before: always; }
+  .section-banner { padding: 6mm 0 4mm; margin-bottom: 3mm; border-bottom: 1.5pt solid #ddd; page-break-after: avoid; }
+  .section-num { display: none; }
+  .banner-tag { color: #555 !important; font-size: 6pt; }
+  .banner-tag::before { background: #555 !important; }
+  .banner-title { font-size: 20pt; color: #000 !important; }
+  .banner-sub { color: #555 !important; font-size: 6.3pt; }
+  .banner-stat-num { color: #555 !important; font-size: 15pt; }
+  .banner-stat-label { color: #888 !important; }
+  .doc-chip { border-color: #ccc !important; color: #555 !important; }
+  .ref-table { width: 100%; border-collapse: collapse; }
+  .ref-table th { font-size: 6pt; letter-spacing: .08em; padding: 2mm 2.5mm; border-bottom: 1pt solid #888; color: #444 !important; background: #f8f8f8; page-break-after: avoid; }
+  td { padding: 1.7mm 2.5mm; border-bottom: .5pt solid #e0e0e0; vertical-align: top; }
+  .ref-row { border-bottom: .5pt solid #e0e0e0; }
+  .ref-row.focus-row { background: #FFFBEA !important; border-top: .5pt solid #F5B731 !important; border-bottom: .5pt solid #F5B731 !important; }
+  .ref-row.focus-row td:first-child { border-left: 2pt solid #F5B731; }
+  .ref-row td:first-child { border-left: 2pt solid transparent; padding-left: 3mm; }
+  .td-term { font-size: 9pt; color: #000 !important; padding-top: 2mm; }
+  .term-flag { color: #C08000 !important; }
+  .td-what, .td-why { font-size: 6.4pt; color: #111 !important; line-height: 1.3; }
+  .td-what code, .td-why code { color: #0A6E5A !important; background: none; padding: 0; }
+  .td-tags { font-size: 5.8pt; color: #555 !important; line-height: 1.3; font-style: italic; }
+  .ref-row.focus-row .td-tags { color: #7A5000 !important; }
+  .th-term { width: 14%; } .th-what { width: 32%; } .th-why { width: 35%; } .th-tags { width: 19%; }
+  .ref-row { page-break-inside: avoid; }
+  thead { display: table-header-group; }
+}
+</style>
+</head>
+<body>
+
+<div id="cover">
+  <div class="cover-label">Zero to Senior Engineer · laughtale.co.za</div>
+  <div class="cover-title">DSA<br><span>MASTERY</span></div>
+  <div class="cover-sub">QUICK REFERENCE</div>
+
+  <div class="cover-meta">
+    <div class="meta-pill"><strong>7</strong> Domains</div>
+    <div class="meta-pill"><strong>33</strong> Concepts</div>
+    <div class="meta-pill"><strong>3</strong> Focus Areas</div>
+  </div>
+
+  <div class="cover-docs">
+    <div class="doc-chip" style="color:#5BBFED;border-color:#1B4E6E">01 · COMPLEXITY FOUNDATIONS</div>
+    <div class="doc-chip" style="color:#C084FC;border-color:#4A2060">02 · LINEAR DATA STRUCTURES</div>
+    <div class="doc-chip" style="color:#FB923C;border-color:#7A3E00">03 · RECURSION &amp; BINARY SEARCH</div>
+    <div class="doc-chip" style="color:#4DCFA4;border-color:#1A5C38">04 · TREES &amp; HEAPS</div>
+    <div class="doc-chip" style="color:#F5B731;border-color:#7A5A00">05 · SORTING ALGORITHMS</div>
+    <div class="doc-chip" style="color:#FF6B6B;border-color:#6E1A1A">06 · GRAPH THEORY</div>
+    <div class="doc-chip" style="color:#8B9EFF;border-color:#2B3178">07 · ALGORITHMIC PATTERNS</div>
+  </div>
+
+  <div class="cover-legend">
+    <div class="legend-item">
+      <div class="legend-dot" style="background:var(--teal)"></div>
+      Each row: TOPIC → MECHANISM → WHY/WHEN IT MATTERS → KEY TERMS
+    </div>
+    <div class="legend-item">
+      <div class="legend-dot" style="background:var(--gold)"></div>
+      Gold rows = classically hardest topics — expect to spend more repetitions here
+    </div>
+    <div class="legend-item" style="margin-left:auto;font-size:11px;color:var(--muted)">
+      Print: Chrome/Edge → Print → A4 · Background graphics ON · Landscape
+    </div>
+  </div>
+</div>
+
+<div id="nav">
+  <div class="nav-logo">DSA</div>
+  <a class="nav-btn" href="#sec1">01 · Complexity</a>
+  <a class="nav-btn" href="#sec2">02 · Linear</a>
+  <a class="nav-btn" href="#sec3">03 · Recursion</a>
+  <a class="nav-btn" href="#sec4">04 · Trees</a>
+  <a class="nav-btn" href="#sec5">05 · Sorting</a>
+  <a class="nav-btn" href="#sec6">06 · Graphs</a>
+  <a class="nav-btn" href="#sec7">07 · Patterns</a>
+  <button class="print-btn" onclick="window.print()">⎙ Print A4</button>
+</div>
+
+<!-- 01 COMPLEXITY FOUNDATIONS -->
+<div class="section-wrap accent-1" id="sec1">
+  <div class="section-banner">
+    <div class="banner-left" style="position:relative">
+      <div class="section-num">01</div>
+      <div class="banner-tag">Domain 01</div>
+      <div class="banner-title">COMPLEXITY FOUNDATIONS</div>
+      <div class="banner-sub">The language every other DSA topic is measured against.</div>
+    </div>
+    <div class="banner-right">
+      <div class="banner-stat"><div class="banner-stat-num">4</div><div class="banner-stat-label">Concepts</div></div>
+      <div class="banner-stat"><div class="banner-stat-num">0</div><div class="banner-stat-label">Focus</div></div>
+    </div>
+  </div>
+  <table class="ref-table">
+    <thead><tr><th class="th-term">TOPIC</th><th class="th-what">MECHANISM</th><th class="th-why">WHY / WHEN IT MATTERS</th><th class="th-tags">KEY TERMS</th></tr></thead>
+    <tbody>
+      <tr class="ref-row">
+        <td class="td-term">Big O Notation</td>
+        <td class="td-what">Describes how runtime and memory scale as input size <em>n</em> grows, capturing only the dominant term while dropping constants — <code>O(3n+7)</code> simplifies to <code>O(n)</code>. It's typically a worst-case bound, giving a hardware-independent way to reason about scalability before code is even written.</td>
+        <td class="td-why">This is the language every technical interview and system design conversation uses to compare approaches, so fluency here is non-negotiable before any other DSA topic makes sense. Master reading nested loops (<code>O(n²)</code>), halving patterns (<code>O(log n)</code>), and recursive branching (<code>O(2^n)</code>) on sight.</td>
+        <td class="td-tags">O(1) O(log n) O(n) O(n log n) O(n²)</td>
+      </tr>
+      <tr class="ref-row">
+        <td class="td-term">Static Arrays</td>
+        <td class="td-what">A fixed-size, contiguous block of memory allocated once at creation — indexing is <code>O(1)</code> because the address of any element is computed directly from the base address and index. Resizing isn't possible; if you need more space you must allocate an entirely new block.</td>
+        <td class="td-why">Understand static arrays as the conceptual foundation beneath every other structure — languages like C and Java expose them directly, and their fixed-size constraint explains why dynamic arrays exist at all. In-place array manipulation questions assume this fixed-memory mental model.</td>
+        <td class="td-tags">contiguous memory, fixed size, O(1) index</td>
+      </tr>
+      <tr class="ref-row">
+        <td class="td-term">Dynamic Arrays</td>
+        <td class="td-what">Wraps a static array but automatically reallocates to a larger block (usually doubling capacity) when full, copying existing elements over. This amortized doubling is what makes <code>.append()</code> <code>O(1)</code> on average, even though any single resize operation is <code>O(n)</code>.</td>
+        <td class="td-why">Nearly every array-based problem uses a dynamic array under the hood, so understanding amortized cost explains why appending is "usually free" but occasionally expensive. It's also why inserting at the front is always <code>O(n)</code> — every element must shift regardless of resizing.</td>
+        <td class="td-tags">amortized O(1), resizing, doubling</td>
+      </tr>
+      <tr class="ref-row">
+        <td class="td-term">Strings</td>
+        <td class="td-what">Behave like arrays of characters, but are immutable in Python — every concatenation creates an entirely new string object rather than mutating in place, making repeated concatenation in a loop <code>O(n²)</code> overall. Building via a list and joining at the end avoids this trap.</td>
+        <td class="td-why">This immutability trap is one of the most common hidden performance bugs in interview code — recognizing "am I concatenating in a loop" and switching to <code>list</code> + <code>join()</code> is a signal of real fluency. Slicing is <code>O(k)</code> for a slice of length k, not <code>O(1)</code>, which matters for substring-heavy algorithms.</td>
+        <td class="td-tags">immutability, join(), O(n²) concat trap</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- 02 LINEAR DATA STRUCTURES -->
+<div class="section-wrap accent-2" id="sec2">
+  <div class="section-banner">
+    <div class="banner-left" style="position:relative">
+      <div class="section-num">02</div>
+      <div class="banner-tag">Domain 02</div>
+      <div class="banner-title">LINEAR DATA STRUCTURES</div>
+      <div class="banner-sub">Pointer-based and hash-based structures that trade array-shifting cost for something faster.</div>
+    </div>
+    <div class="banner-right">
+      <div class="banner-stat"><div class="banner-stat-num">6</div><div class="banner-stat-label">Concepts</div></div>
+      <div class="banner-stat"><div class="banner-stat-num">0</div><div class="banner-stat-label">Focus</div></div>
+    </div>
+  </div>
+  <table class="ref-table">
+    <thead><tr><th class="th-term">TOPIC</th><th class="th-what">MECHANISM</th><th class="th-why">WHY / WHEN IT MATTERS</th><th class="th-tags">KEY TERMS</th></tr></thead>
+    <tbody>
+      <tr class="ref-row">
+        <td class="td-term">Singly Linked Lists</td>
+        <td class="td-what">A chain of nodes, each storing a value and a pointer to the next node — no contiguous memory, so insertion/deletion at a known node is <code>O(1)</code> since it's just pointer rewiring, not shifting. The tradeoff is <code>O(n)</code> access to an arbitrary index, since you must walk the chain from the head.</td>
+        <td class="td-why">Use when you need frequent insertion/deletion at the head or middle without the <code>O(n)</code> shifting cost a dynamic array pays. This structure is also the backbone for understanding more complex pointer-based structures like trees and graphs.</td>
+        <td class="td-tags">node, pointer, head, O(1) insert</td>
+      </tr>
+      <tr class="ref-row">
+        <td class="td-term">Doubly Linked Lists</td>
+        <td class="td-what">Adds a "previous" pointer alongside "next," letting you traverse both directions and delete a node in <code>O(1)</code> once you have a reference to it, without walking from the head to find its predecessor. The cost is extra memory per node and more bookkeeping to keep both directions consistent.</td>
+        <td class="td-why">Reach for this when you need <code>O(1)</code> removal from either end (like an LRU cache) or need to walk backward — Python's <code>collections.deque</code> is implemented this way, giving <code>O(1)</code> appends/pops from both ends.</td>
+        <td class="td-tags">prev/next pointer, deque, O(1) delete</td>
+      </tr>
+      <tr class="ref-row">
+        <td class="td-term">Hash Tables &amp; Hash Functions</td>
+        <td class="td-what">Stores key-value pairs by running each key through a hash function to compute an index (bucket), giving <code>O(1)</code> average lookup, insert, and delete regardless of table size. Collisions (two keys hashing to the same bucket) are resolved via chaining or open addressing, and the table resizes once it gets too full.</td>
+        <td class="td-why">This is the single most powerful lookup structure in DSA — "I need to check membership or count occurrences fast" should immediately trigger "hash table." A poor hash function degrades performance to <code>O(n)</code>, so the mechanism explains both the power and the failure mode.</td>
+        <td class="td-tags">hash function, collision, chaining, load factor</td>
+      </tr>
+      <tr class="ref-row">
+        <td class="td-term">Sets &amp; Maps</td>
+        <td class="td-what">A set is a hash table storing only keys, optimized purely for <code>O(1)</code> membership testing and automatic deduplication. A map (Python <code>dict</code>) is a hash table storing key-value pairs, letting you associate arbitrary data with each unique key at the same average-case cost.</td>
+        <td class="td-why">Use a set the moment you need "has this been seen before" without extra data — deduplicating, tracking visited nodes. Use a map to associate a count, index, or object with a key, like frequency counting or memoization caches in dynamic programming.</td>
+        <td class="td-tags">dedup, membership test, frequency map</td>
+      </tr>
+      <tr class="ref-row">
+        <td class="td-term">Stacks</td>
+        <td class="td-what">A Last-In-First-Out (LIFO) structure supporting <code>O(1)</code> push and pop, both restricted to one end — typically built on a dynamic array or linked list, since both give <code>O(1)</code> at that single end. No direct access to the middle; only the top is ever visible.</td>
+        <td class="td-why">Recognize a stack the moment a problem involves "undo the most recent thing," matching nested pairs (parentheses, brackets), or unwinding history in reverse order. It's also the literal structure behind recursive call stacks and depth-first search.</td>
+        <td class="td-tags">LIFO, push/pop, matching brackets</td>
+      </tr>
+      <tr class="ref-row">
+        <td class="td-term">Queues</td>
+        <td class="td-what">A First-In-First-Out (FIFO) structure supporting <code>O(1)</code> enqueue at the back and <code>O(1)</code> dequeue from the front — built with a doubly linked list or circular buffer, since a plain dynamic array would pay <code>O(n)</code> to remove from the front. <code>collections.deque</code> guarantees <code>O(1)</code> at both ends.</td>
+        <td class="td-why">Recognize a queue whenever a problem must process items in the exact order they arrived — breadth-first search, task scheduling, buffering streams. Using a plain list with <code>.pop(0)</code> as a queue is a common bug, since that call is actually <code>O(n)</code>.</td>
+        <td class="td-tags">FIFO, enqueue/dequeue, deque</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- 03 RECURSION & BINARY SEARCH -->
+<div class="section-wrap accent-3" id="sec3">
+  <div class="section-banner">
+    <div class="banner-left" style="position:relative">
+      <div class="section-num">03</div>
+      <div class="banner-tag">Domain 03</div>
+      <div class="banner-title">RECURSION &amp; BINARY SEARCH</div>
+      <div class="banner-sub">Solving problems by shrinking them — either into smaller identical subproblems, or into a halved search space.</div>
+    </div>
+    <div class="banner-right">
+      <div class="banner-stat"><div class="banner-stat-num">3</div><div class="banner-stat-label">Concepts</div></div>
+      <div class="banner-stat"><div class="banner-stat-num">1</div><div class="banner-stat-label">Focus</div></div>
+    </div>
+  </div>
+  <table class="ref-table">
+    <thead><tr><th class="th-term">TOPIC</th><th class="th-what">MECHANISM</th><th class="th-why">WHY / WHEN IT MATTERS</th><th class="th-tags">KEY TERMS</th></tr></thead>
+    <tbody>
+      <tr class="ref-row">
+        <td class="td-term">Recursion &amp; Call Stacks</td>
+        <td class="td-what">A recursive function calls itself with a smaller version of the problem until it hits a base case, and Python manages this with an actual call stack — each call pushes a new stack frame holding its local variables, and returning pops it off. Every recursive algorithm has an equivalent iterative version using an explicit stack; recursion just lets the language manage that stack for you.</td>
+        <td class="td-why">Recursion is the natural fit whenever a problem can be defined in terms of smaller identical subproblems — tree traversal, divide and conquer, backtracking. Understanding the call stack explains both why deep recursion can hit a <code>RecursionError</code> and why every recursive solution can be rewritten iteratively.</td>
+        <td class="td-tags">base case, stack frame, recursion depth</td>
+      </tr>
+      <tr class="ref-row">
+        <td class="td-term">Binary Search (Traditional)</td>
+        <td class="td-what">Repeatedly halves a sorted search space, comparing the middle element to the target and discarding the half that can't contain it, giving <code>O(log n)</code> instead of <code>O(n)</code> linear scanning. Tracks left and right pointers and a <code>mid = (left + right) // 2</code>, updating boundaries until found or the space is empty.</td>
+        <td class="td-why">The precondition is always "the data must be sorted" — applying it to unsorted data silently gives wrong answers, not an error. Recognize it the moment a problem says "sorted array" and asks for a specific value or insertion point.</td>
+        <td class="td-tags">sorted array, O(log n), left/right pointers</td>
+      </tr>
+      <tr class="ref-row focus-row">
+        <td class="td-term"><span class="term-badge">Binary Search (Condition-Based)<span class="term-flag">⚠ FOCUS</span></span></td>
+        <td class="td-what">Applies the same halving logic to a range of possible answers rather than an array — guess a value, check whether it satisfies a monotonic condition (true for all values on one side, false on the other), and binary search on that boolean boundary instead of a literal sorted list. Works whenever the problem has a monotonic yes/no structure, even without an explicit sorted array in sight.</td>
+        <td class="td-why">This is the harder, less obvious form of binary search that trips people up in interviews — recognizing "can I binary search the answer space instead of the input" turns an <code>O(n)</code> or worse brute force into <code>O(log n)</code>. Look for phrasing like "minimum value such that X is possible."</td>
+        <td class="td-tags">search space, monotonic condition, "search on answer"</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- 04 TREES & HEAPS -->
+<div class="section-wrap accent-4" id="sec4">
+  <div class="section-banner">
+    <div class="banner-left" style="position:relative">
+      <div class="section-num">04</div>
+      <div class="banner-tag">Domain 04</div>
+      <div class="banner-title">TREES &amp; HEAPS</div>
+      <div class="banner-sub">Hierarchical structures — from general shape, to ordering invariants, to priority guarantees.</div>
+    </div>
+    <div class="banner-right">
+      <div class="banner-stat"><div class="banner-stat-num">4</div><div class="banner-stat-label">Concepts</div></div>
+      <div class="banner-stat"><div class="banner-stat-num">0</div><div class="banner-stat-label">Focus</div></div>
+    </div>
+  </div>
+  <table class="ref-table">
+    <thead><tr><th class="th-term">TOPIC</th><th class="th-what">MECHANISM</th><th class="th-why">WHY / WHEN IT MATTERS</th><th class="th-tags">KEY TERMS</th></tr></thead>
+    <tbody>
+      <tr class="ref-row">
+        <td class="td-term">Binary Trees</td>
+        <td class="td-what">A hierarchical structure where each node has at most two children (left/right), with no ordering guarantee between them — the general structural shape underlying BSTs, heaps, and expression trees. Traversal order (preorder, inorder, postorder, level-order) determines the sequence nodes are visited in, chosen based on what the algorithm needs.</td>
+        <td class="td-why">Master the recursive pattern: process the current node, then recurse on left and right subtrees — nearly every tree algorithm is a variation of this template. Level-order traversal (via a queue) is what you reach for when the problem cares about depth or "level by level."</td>
+        <td class="td-tags">node, left/right child, traversal order</td>
+      </tr>
+      <tr class="ref-row">
+        <td class="td-term">Binary Search Trees (BST)</td>
+        <td class="td-what">Adds an ordering invariant to a binary tree: every node's left subtree contains only smaller values, its right only larger ones — an inorder traversal produces sorted output for free. Search, insert, delete are all <code>O(log n)</code> on a balanced tree, but degrade to <code>O(n)</code> if the tree becomes skewed from inserting already-sorted data.</td>
+        <td class="td-why">Reach for a BST when you need sorted-order data with fast insert/search, but be aware an unbalanced BST loses its performance guarantee entirely — exactly why self-balancing variants (AVL, Red-Black trees) exist in production systems.</td>
+        <td class="td-tags">ordering invariant, O(log n), skewed tree risk</td>
+      </tr>
+      <tr class="ref-row">
+        <td class="td-term">Heaps</td>
+        <td class="td-what">A complete binary tree (filled left to right, level by level) satisfying the heap property — in a min-heap, every parent is smaller than its children, so the smallest element sits at the root, retrievable in <code>O(1)</code>. Heapify (sift-up on insert, sift-down on removal) restores the property in <code>O(log n)</code>, usually stored compactly in an array using index math instead of pointers.</td>
+        <td class="td-why">Reach for a heap whenever you repeatedly need "the current minimum/maximum" as data streams in — heap sort builds a heap in <code>O(n)</code> then extracts the root repeatedly in <code>O(log n)</code> for overall <code>O(n log n)</code>. The structure behind every "top-k" interview problem.</td>
+        <td class="td-tags">heap property, sift-up/down, heap sort</td>
+      </tr>
+      <tr class="ref-row">
+        <td class="td-term">Priority Queues</td>
+        <td class="td-what">The abstract concept — "dequeue always returns the highest-priority item" — with a heap as the most common concrete implementation, giving <code>O(log n)</code> insert and removal. Python's <code>heapq</code> implements a min-heap directly on top of a plain list, so <code>heapq.heappush</code> and <code>heapq.heappop</code> are the two core operations.</td>
+        <td class="td-why">Recognize a priority queue whenever a problem needs "process items in order of importance, not arrival order" — Dijkstra's shortest path, deadline scheduling, merging k sorted lists. Remember <code>heapq</code> is min-heap only — negate values for max-heap behavior.</td>
+        <td class="td-tags">heapq, heappush/heappop, min-heap default</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- 05 SORTING ALGORITHMS -->
+<div class="section-wrap accent-5" id="sec5">
+  <div class="section-banner">
+    <div class="banner-left" style="position:relative">
+      <div class="section-num">05</div>
+      <div class="banner-tag">Domain 05</div>
+      <div class="banner-title">SORTING ALGORITHMS</div>
+      <div class="banner-sub">Six ways to order a sequence — each with a different tradeoff between time, space, and stability.</div>
+    </div>
+    <div class="banner-right">
+      <div class="banner-stat"><div class="banner-stat-num">6</div><div class="banner-stat-label">Concepts</div></div>
+      <div class="banner-stat"><div class="banner-stat-num">0</div><div class="banner-stat-label">Focus</div></div>
+    </div>
+  </div>
+  <table class="ref-table">
+    <thead><tr><th class="th-term">TOPIC</th><th class="th-what">MECHANISM</th><th class="th-why">WHY / WHEN IT MATTERS</th><th class="th-tags">KEY TERMS</th></tr></thead>
+    <tbody>
+      <tr class="ref-row">
+        <td class="td-term">Bubble Sort</td>
+        <td class="td-what">Repeatedly steps through the list, swapping adjacent out-of-order elements, so after each pass the largest unsorted element "bubbles" to its correct position — <code>O(n²)</code> comparisons and swaps worst/average case. An early-exit flag makes it <code>O(n)</code> best case on already-sorted input.</td>
+        <td class="td-why">Rarely used in production due to <code>O(n²)</code> cost, but the canonical first example for understanding comparison-based sorting and swap mechanics before faster algorithms. Sometimes used to test whether you can identify why a naive approach is inefficient.</td>
+        <td class="td-tags">adjacent swap, O(n²), early exit</td>
+      </tr>
+      <tr class="ref-row">
+        <td class="td-term">Insertion Sort</td>
+        <td class="td-what">Builds the sorted portion one element at a time, shifting each new element backward through the sorted prefix until it lands in place — <code>O(n²)</code> worst case, but only <code>O(n)</code> on nearly-sorted data since few shifts are needed. The same mental model as sorting playing cards by hand.</td>
+        <td class="td-why">Reach for this specifically when data is nearly sorted already, or the dataset is small — its low constant-factor overhead beats <code>O(n log n)</code> algorithms below a size threshold, which is why production sorts switch to it for small sub-arrays.</td>
+        <td class="td-tags">shifting, nearly-sorted, O(n) best case</td>
+      </tr>
+      <tr class="ref-row">
+        <td class="td-term">Selection Sort</td>
+        <td class="td-what">Repeatedly scans the unsorted portion to find the minimum, then swaps it into place at the front of the unsorted section — always <code>O(n²)</code> comparisons regardless of input order, since a full scan happens every pass. Its advantage is a minimal number of actual swaps (at most n).</td>
+        <td class="td-why">Rarely the right choice given its fixed <code>O(n²)</code> cost, but builds the "find minimum, swap into place" pattern used elsewhere. Useful specifically when swap cost dominates and you want to minimize total writes to memory.</td>
+        <td class="td-tags">minimum scan, fixed O(n²), few swaps</td>
+      </tr>
+      <tr class="ref-row">
+        <td class="td-term">Merge Sort</td>
+        <td class="td-what">A divide-and-conquer algorithm that recursively splits the list in half until each piece has one element, then merges sorted halves by comparing their fronts — guarantees <code>O(n log n)</code> in every case since split and merge steps are fixed regardless of input order. Costs <code>O(n)</code> extra space, since the merge isn't in-place.</td>
+        <td class="td-why">Reach for this when you need guaranteed <code>O(n log n)</code> regardless of input, or stability (equal elements keep relative order) matters — the standard choice for sorting linked lists, where sequential access fits naturally.</td>
+        <td class="td-tags">divide &amp; conquer, stable, O(n) space</td>
+      </tr>
+      <tr class="ref-row">
+        <td class="td-term">Quick Sort</td>
+        <td class="td-what">Picks a pivot, partitions the list so smaller elements go left and larger go right, then recursively sorts each side — average <code>O(n log n)</code>, but worst case <code>O(n²)</code> if pivot choice repeatedly produces badly unbalanced partitions. Randomized or median-of-three pivot selection avoids this in practice.</td>
+        <td class="td-why">Generally the fastest general-purpose sort in practice due to cache locality and in-place partitioning (<code>O(log n)</code> space, not <code>O(n)</code> like merge sort) — why most standard libraries' default sort is quicksort-based. Pivot-selection risk is the classic interview follow-up.</td>
+        <td class="td-tags">pivot, partition, in-place, worst-case O(n²)</td>
+      </tr>
+      <tr class="ref-row">
+        <td class="td-term">Counting Sort</td>
+        <td class="td-what">Instead of comparing elements, tallies how many times each distinct value appears in a count array indexed by value, then reconstructs the sorted output directly from those counts — achieves <code>O(n + k)</code> time, sidestepping the <code>O(n log n)</code> comparison-sort lower bound. Only works for integers within a known, reasonably small range.</td>
+        <td class="td-why">Reach for this sorting a large number of items when the value range is small and known in advance — exam scores 0-100, characters in a string — since it beats comparison sorts asymptotically in that scenario. Breaks down for large or unbounded ranges.</td>
+        <td class="td-tags">non-comparison, O(n+k), bounded range</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- 06 GRAPH THEORY -->
+<div class="section-wrap accent-6" id="sec6">
+  <div class="section-banner">
+    <div class="banner-left" style="position:relative">
+      <div class="section-num">06</div>
+      <div class="banner-tag">Domain 06</div>
+      <div class="banner-title">GRAPH THEORY</div>
+      <div class="banner-sub">Representing networks, then traversing them by depth or by level.</div>
+    </div>
+    <div class="banner-right">
+      <div class="banner-stat"><div class="banner-stat-num">5</div><div class="banner-stat-label">Concepts</div></div>
+      <div class="banner-stat"><div class="banner-stat-num">0</div><div class="banner-stat-label">Focus</div></div>
+    </div>
+  </div>
+  <table class="ref-table">
+    <thead><tr><th class="th-term">TOPIC</th><th class="th-what">MECHANISM</th><th class="th-why">WHY / WHEN IT MATTERS</th><th class="th-tags">KEY TERMS</th></tr></thead>
+    <tbody>
+      <tr class="ref-row">
+        <td class="td-term">Edge List</td>
+        <td class="td-what">The simplest graph representation — a flat list of (source, destination) pairs, optionally weighted — taking <code>O(E)</code> space. Compact and easy to build, but checking "are these two nodes connected" requires scanning the whole list.</td>
+        <td class="td-why">Use when you mainly need to iterate all edges once (like sorting edges by weight for Kruskal's MST algorithm), rather than repeated neighbor lookups. Rarely the representation you traverse a graph with directly — usually converted to an adjacency list first.</td>
+        <td class="td-tags">(u, v) pairs, O(E) space, Kruskal's</td>
+      </tr>
+      <tr class="ref-row">
+        <td class="td-term">Adjacency Matrix</td>
+        <td class="td-what">A 2D grid of size V×V where cell [i][j] indicates an edge between node i and j (or its weight) — checking if two nodes are connected is <code>O(1)</code>, a direct index lookup. Costs <code>O(V²)</code> space regardless of how many edges actually exist.</td>
+        <td class="td-why">Reach for this when the graph is dense (edges close to V²) or <code>O(1)</code> "are these two nodes directly connected" lookups dominate, like in some DP-over-graph formulations. Avoid for large sparse graphs — memory cost becomes prohibitive fast.</td>
+        <td class="td-tags">V×V grid, O(1) edge check, O(V²) space</td>
+      </tr>
+      <tr class="ref-row">
+        <td class="td-term">Adjacency List</td>
+        <td class="td-what">Each node keeps a list of its direct neighbors, giving <code>O(V + E)</code> total space — far more efficient than a matrix for sparse graphs, since only existing edges are stored. Checking two nodes' connection is <code>O(degree)</code>, but iterating all neighbors of a node is fast and direct.</td>
+        <td class="td-why">The default, go-to representation for almost every graph problem, since most real-world graphs are sparse and most algorithms (DFS, BFS, Dijkstra) fundamentally need "give me this node's neighbors." Reach for a matrix only with a specific dense-graph or O(1)-lookup requirement.</td>
+        <td class="td-tags">O(V+E) space, neighbor lookup, default choice</td>
+      </tr>
+      <tr class="ref-row">
+        <td class="td-term">Depth-First Search (DFS)</td>
+        <td class="td-what">Explores as far down one path as possible before backtracking, implemented with recursion (call stack) or an explicit stack — visit a node, mark visited, recurse into each unvisited neighbor before returning. <code>O(V + E)</code> since every node and edge is examined once.</td>
+        <td class="td-why">Reach for DFS when you need to explore all paths, detect cycles, perform topological sorting, or solve connectivity problems where exploration order matters less than covering everything reachable. Overlaps heavily with backtracking.</td>
+        <td class="td-tags">stack-based, backtracking, O(V+E)</td>
+      </tr>
+      <tr class="ref-row">
+        <td class="td-term">Breadth-First Search (BFS)</td>
+        <td class="td-what">Explores a graph level by level, visiting all of a node's direct neighbors before moving to theirs, implemented with a queue — dequeue a node, mark visited, enqueue unvisited neighbors, repeat. Also <code>O(V + E)</code>, but the queue-based level order is what distinguishes it from DFS's stack-based depth-first order.</td>
+        <td class="td-why">Reach for BFS whenever you need shortest path in an unweighted graph — the level-by-level guarantee means the first time you reach a node is via the shortest path. The algorithm behind shortest-path problems, level-order traversal, and "minimum steps" problems.</td>
+        <td class="td-tags">queue-based, shortest path (unweighted), level order</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- 07 ALGORITHMIC PATTERNS -->
+<div class="section-wrap accent-7" id="sec7">
+  <div class="section-banner">
+    <div class="banner-left" style="position:relative">
+      <div class="section-num">07</div>
+      <div class="banner-tag">Domain 07</div>
+      <div class="banner-title">ALGORITHMIC PATTERNS &amp; ADVANCED TECHNIQUES</div>
+      <div class="banner-sub">The reusable playbook that turns brute-force solutions into interview-ready ones.</div>
+    </div>
+    <div class="banner-right">
+      <div class="banner-stat"><div class="banner-stat-num">5</div><div class="banner-stat-label">Concepts</div></div>
+      <div class="banner-stat"><div class="banner-stat-num">2</div><div class="banner-stat-label">Focus</div></div>
+    </div>
+  </div>
+  <table class="ref-table">
+    <thead><tr><th class="th-term">TOPIC</th><th class="th-what">MECHANISM</th><th class="th-why">WHY / WHEN IT MATTERS</th><th class="th-tags">KEY TERMS</th></tr></thead>
+    <tbody>
+      <tr class="ref-row">
+        <td class="td-term">Two Pointers</td>
+        <td class="td-what">Uses two index variables moving through a structure (often a sorted array) — converging from opposite ends, or both moving forward at different speeds — to solve problems in a single <code>O(n)</code> pass instead of the <code>O(n²)</code> a naive nested loop would need. Relies on a structural property (usually sortedness) guaranteeing that moving one pointer, rather than checking every pair, is safe.</td>
+        <td class="td-why">Recognize this whenever a brute-force solution checks all pairs in a sorted array or sequence — pair-sum problems, palindrome checks, removing duplicates in place. One of the highest-leverage patterns in interviews, turning an obvious <code>O(n²)</code> into <code>O(n)</code>.</td>
+        <td class="td-tags">converging pointers, O(n) pass, sorted input</td>
+      </tr>
+      <tr class="ref-row">
+        <td class="td-term">Sliding Window</td>
+        <td class="td-what">Maintains a contiguous subrange defined by two pointers that expands and contracts over a sequence, avoiding recomputing a full subrange sum/count from scratch each move. A fixed-length window has a constant size k that slides one step at a time; a variable-length window grows via the right pointer and shrinks via the left pointer whenever a condition is violated.</td>
+        <td class="td-why">Recognize this whenever a problem involves a contiguous subarray/substring and a target condition — "longest substring without repeating characters," "smallest subarray with sum ≥ target." Turns an <code>O(n²)</code> or <code>O(n·k)</code> brute-force rescan into a single <code>O(n)</code> pass.</td>
+        <td class="td-tags">expand/contract, fixed vs variable, O(n) pass</td>
+      </tr>
+      <tr class="ref-row focus-row">
+        <td class="td-term"><span class="term-badge">Recursive Backtracking<span class="term-flag">⚠ FOCUS</span></span></td>
+        <td class="td-what">Builds a solution incrementally, and the moment a partial solution can't possibly lead to a valid complete one, abandons ("backtracks") that branch and tries the next option — recursion with an explicit "undo" step after each call returns, restoring shared state before the next choice. Systematically explores the entire solution space while pruning invalid branches early.</td>
+        <td class="td-why">Recognize this whenever a problem asks for "all possible" combinations, permutations, subsets, or valid arrangements (N-Queens, Sudoku, generating parentheses) — anywhere brute force must explore a tree of choices but can cut branches short once clearly invalid.</td>
+        <td class="td-tags">choose-explore-unchoose, pruning, exponential search space</td>
+      </tr>
+      <tr class="ref-row focus-row">
+        <td class="td-term"><span class="term-badge">Dynamic Programming<span class="term-flag">⚠ FOCUS</span></span></td>
+        <td class="td-what">Solves problems with overlapping subproblems and optimal substructure by storing each subproblem's result once computed, avoiding exponential recomputation. Top-down memoization keeps the natural recursive structure but adds a cache checked before recursing further; bottom-up tabulation builds an iterative table from the smallest subproblems upward, trading recursion overhead for a small performance edge and no stack-overflow risk.</td>
+        <td class="td-why">Reach for DP the moment a recursive brute-force solution recomputes identical subproblems repeatedly — the signal is an exponential recursion tree with heavily overlapping branches (Fibonacci, knapsack, edit distance). Start with top-down memoization since it mirrors the natural recursive definition, then convert to bottom-up once the recurrence is clear.</td>
+        <td class="td-tags">memoization, tabulation, optimal substructure</td>
+      </tr>
+      <tr class="ref-row">
+        <td class="td-term">Binary Numbers &amp; Bit Manipulation</td>
+        <td class="td-what">Numbers are stored in binary under the hood, and bitwise operators (<code>&amp;</code> <code>|</code> <code>^</code> <code>~</code> <code>&lt;&lt;</code> <code>&gt;&gt;</code>) let you manipulate individual bits directly — e.g. <code>n & (n-1)</code> clears the lowest set bit, <code>n &lt;&lt; 1</code> multiplies by 2. These run in true <code>O(1)</code> constant time at the hardware level, regardless of the number's magnitude.</td>
+        <td class="td-why">Reach for bit manipulation when a problem involves flags, subsets (each bit = "included" or not), or asks for extreme performance/memory efficiency — counting set bits, finding a single non-duplicate via XOR, generating all subsets via bitmasking. Also used to compress boolean flags into one integer.</td>
+        <td class="td-tags">AND/OR/XOR, bitmask, O(1) ops</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div id="footer">
+  <span>Damian Thulani · Zero to Senior Engineer · DSA Mastery Reference</span>
+  <span>laughtale.co.za</span>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,5 @@
+Goal: Build the production pattern from notes 10.8 — read a file line-by-line without loading it all into memory.
+Create a small text file (sample_log.txt) with ~15 lines, where some lines contain the word "ERROR".
+ERROR: Write def read_logs(filepath): as a generator that yields each stripped line.
+Add a print(f"Reading: {line}") inside the generator, right before each yield, so you can visually see it only processes one line at a time when you call next() manually (don't use a for loop for this part).
+Done when: Calling next() three separate times prints exactly one "Reading:" line each call — proof the rest of the file hasn't been touched yet.

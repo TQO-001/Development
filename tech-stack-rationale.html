@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Tech Stack — Why I Chose It · Damian Thulani</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=JetBrains+Mono:ital,wght@0,300;0,400;0,500;0,700;1,400&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:      #080C16;
+  --surface: #101828;
+  --card:    #141E30;
+  --border:  #1E2D45;
+  --teal:    #3FEFBF;
+  --gold:    #F5B731;
+  --text:    #6296ea;
+  --muted:   #6B7A99;
+
+  --c1:#5BBFED; --c1b:#1B4E6E;
+  --c5:#F5B731; --c5b:#7A5A00;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  line-height: 1.5;
+  background-image:
+    linear-gradient(rgba(63,239,191,.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(63,239,191,.03) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+
+#cover {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 60px 80px;
+  position: relative;
+  overflow: hidden;
+  border-bottom: 2px solid var(--border);
+}
+#cover::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 60% 60% at 80% 40%, rgba(63,239,191,.07) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 40% at 20% 80%, rgba(245,183,49,.05) 0%, transparent 70%);
+}
+.cover-label {
+  font-size: 11px; letter-spacing: .18em; text-transform: uppercase;
+  color: var(--teal); margin-bottom: 24px; display: flex; align-items: center; gap: 12px;
+}
+.cover-label::before { content:''; display:block; width:32px; height:1px; background: var(--teal); }
+.cover-title {
+  font-family: 'Bebas Neue', sans-serif; font-size: clamp(72px, 10vw, 120px);
+  line-height: .9; letter-spacing: .02em; color: var(--text); margin-bottom: 8px;
+}
+.cover-title span { color: var(--teal); }
+.cover-sub {
+  font-family: 'Bebas Neue', sans-serif; font-size: clamp(28px, 4vw, 44px);
+  color: var(--muted); letter-spacing: .06em; margin-bottom: 40px;
+}
+.cover-meta { display: flex; flex-wrap: wrap; gap: 24px; margin-bottom: 48px; }
+.meta-pill { background: var(--card); border: 1px solid var(--border); border-radius: 4px; padding: 10px 20px; font-size: 12px; color: var(--muted); }
+.meta-pill strong { color: var(--gold); font-size: 22px; display: block; }
+.cover-legend { display: flex; gap: 32px; flex-wrap: wrap; border-top: 1px solid var(--border); padding-top: 32px; width: 100%; }
+.legend-item { display: flex; align-items: center; gap: 10px; font-size: 12px; color: var(--muted); }
+.legend-dot { width: 12px; height: 12px; border-radius: 2px; flex-shrink: 0; }
+.cover-docs { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 40px; }
+.doc-chip { font-size: 10px; letter-spacing: .08em; text-transform: uppercase; padding: 6px 14px; border-radius: 2px; border: 1px solid; }
+
+#nav {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(8,12,22,.92); backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; padding: 0 40px; height: 52px; gap: 4px; flex-wrap: wrap;
+}
+.nav-logo { font-family: 'Bebas Neue', sans-serif; font-size: 18px; letter-spacing: .08em; color: var(--teal); margin-right: 24px; }
+.nav-btn {
+  font-size: 10.5px; letter-spacing: .05em; color: var(--muted); background: none; border: none;
+  cursor: pointer; padding: 6px 10px; border-radius: 3px; transition: all .2s; text-transform: uppercase;
+  text-decoration: none; display: inline-block;
+}
+.nav-btn:hover { color: var(--text); background: var(--card); }
+.print-btn {
+  margin-left: auto; font-size: 11px; letter-spacing: .06em; color: var(--bg); background: var(--teal);
+  border: none; cursor: pointer; padding: 7px 18px; border-radius: 3px; font-weight: 700; text-transform: uppercase;
+}
+.print-btn:hover { background: #5fffcf; }
+
+.section-wrap { padding: 0 32px 64px; }
+.section-wrap.accent-1 { --accent: var(--c1); --accent-b: var(--c1b); }
+.section-wrap.accent-5 { --accent: var(--c5); --accent-b: var(--c5b); }
+
+.section-banner {
+  padding: 48px 0 32px; display: flex; align-items: flex-end; justify-content: space-between;
+  border-bottom: 2px solid var(--accent-b, var(--border)); margin-bottom: 24px; flex-wrap: wrap; gap: 16px;
+}
+.section-num { font-family: 'Bebas Neue', sans-serif; font-size: 100px; line-height: 1; opacity: .08; position: absolute; right: 60px; top: 0; letter-spacing: .02em; pointer-events: none; }
+.banner-left { position: relative; }
+.banner-tag { font-size: 10px; letter-spacing: .2em; text-transform: uppercase; color: var(--accent, var(--teal)); margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+.banner-tag::before { content:''; display:block; width:20px; height:1px; background: var(--accent, var(--teal)); }
+.banner-title { font-family: 'Bebas Neue', sans-serif; font-size: 48px; letter-spacing: .04em; line-height: 1; color: var(--text); }
+.banner-sub { font-size: 12px; color: var(--muted); margin-top: 6px; max-width: 640px; }
+.banner-right { display: flex; gap: 20px; }
+.banner-stat { text-align: right; }
+.banner-stat-num { font-family: 'Bebas Neue', sans-serif; font-size: 32px; color: var(--gold); }
+.banner-stat-label { font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+
+.ref-table { width: 100%; border-collapse: collapse; }
+.ref-table th {
+  font-size: 9px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted);
+  text-align: left; padding: 10px 16px; border-bottom: 2px solid var(--border); white-space: nowrap;
+}
+.th-term { width: 16%; }
+.th-what { width: 30%; }
+.th-why  { width: 34%; }
+.th-tags { width: 20%; }
+
+.ref-row { border-bottom: 1px solid rgba(30,45,69,.7); transition: background .15s; vertical-align: top; }
+.ref-row:hover { background: rgba(63,239,191,.03); }
+.ref-row.focus-row { background: rgba(245,183,49,.04); border-bottom: 1px solid rgba(245,183,49,.15); border-top: 1px solid rgba(245,183,49,.15); }
+.ref-row.focus-row:hover { background: rgba(245,183,49,.07); }
+
+td { padding: 12px 16px; vertical-align: top; }
+.td-term { font-family: 'Bebas Neue', sans-serif; font-size: 18px; letter-spacing: .02em; color: var(--text); padding-top: 13px; line-height: 1.15; }
+.td-term .role { display:block; font-family:'JetBrains Mono',monospace; font-size: 9px; letter-spacing:.08em; text-transform:uppercase; color: var(--muted); margin-top: 3px; font-weight: normal; }
+.term-badge { display: inline-flex; flex-direction: column; gap: 2px; }
+.term-flag { font-size: 7px; letter-spacing: .12em; color: var(--gold); text-transform: uppercase; font-family: 'JetBrains Mono', monospace; }
+
+.td-what, .td-why { font-size: 11.5px; color: var(--text); line-height: 1.55; }
+.td-what code, .td-why code { font-size: 10px; color: var(--teal); background: rgba(63,239,191,.08); padding: 1px 4px; border-radius: 2px; }
+
+.td-tags { font-size: 10.5px; color: var(--muted); line-height: 1.6; font-style: italic; }
+
+.ref-row td:first-child { border-left: 3px solid transparent; }
+.ref-row.focus-row td:first-child { border-left: 3px solid var(--gold); }
+
+/* system rule callout */
+.rule-band {
+  margin-top: 28px;
+  border: 1px solid var(--accent, var(--teal));
+  background: rgba(63,191,237,.06);
+  padding: 22px 28px;
+  position: relative;
+}
+.rule-band::before {
+  content: '⚡ THE SYSTEM RULE';
+  display: block;
+  font-size: 9px;
+  letter-spacing: .18em;
+  color: var(--accent, var(--teal));
+  margin-bottom: 10px;
+}
+.rule-statement {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 22px;
+  letter-spacing: .02em;
+  color: var(--text);
+  line-height: 1.3;
+  margin-bottom: 10px;
+}
+.rule-flow {
+  font-size: 11px;
+  color: var(--muted);
+  line-height: 1.6;
+}
+.rule-flow code { color: var(--teal); background: rgba(63,239,191,.08); padding: 1px 4px; border-radius: 2px; }
+
+#footer { border-top: 1px solid var(--border); padding: 32px 80px; display: flex; justify-content: space-between; align-items: center; font-size: 11px; color: var(--muted); }
+
+@media print {
+  @page { size: A4 landscape; margin: 8mm 10mm 8mm 10mm; }
+  @page :first { size: A4 portrait; margin: 0; }
+  * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+  html, body { background: #fff !important; color: #000 !important; font-size: 7pt; line-height: 1.3; background-image: none !important; }
+  #nav, .print-btn, #footer { display: none !important; }
+  #cover { width: 210mm; height: 297mm; min-height: 0; padding: 28mm 24mm; background: #0A0B14 !important; color: #fff !important; page-break-after: always; border: none; display: flex !important; justify-content: center; }
+  #cover::before { display: none; }
+  .cover-label { color: #3FEFBF !important; }
+  .cover-label::before { background: #3FEFBF !important; }
+  .cover-title { font-size: 72pt; color: #E2E8F2 !important; }
+  .cover-title span { color: #3FEFBF !important; }
+  .cover-sub { color: #6B7A99 !important; font-size: 20pt; }
+  .meta-pill { background: #141E30 !important; border-color: #1E2D45 !important; color: #6B7A99 !important; }
+  .meta-pill strong { color: #F5B731 !important; }
+  .cover-legend { border-color: #1E2D45 !important; }
+  .legend-item { color: #6B7A99 !important; }
+  .doc-chip { font-size: 8pt; }
+  .section-wrap { padding: 0; page-break-before: always; }
+  .section-banner { padding: 6mm 0 4mm; margin-bottom: 3mm; border-bottom: 1.5pt solid #ddd; page-break-after: avoid; }
+  .section-num { display: none; }
+  .banner-tag { color: #555 !important; font-size: 6pt; }
+  .banner-tag::before { background: #555 !important; }
+  .banner-title { font-size: 22pt; color: #000 !important; }
+  .banner-sub { color: #555 !important; font-size: 6.5pt; }
+  .banner-stat-num { color: #555 !important; font-size: 16pt; }
+  .banner-stat-label { color: #888 !important; }
+  .doc-chip { border-color: #ccc !important; color: #555 !important; }
+  .ref-table { width: 100%; border-collapse: collapse; }
+  .ref-table th { font-size: 6pt; letter-spacing: .08em; padding: 2mm 2.5mm; border-bottom: 1pt solid #888; color: #444 !important; background: #f8f8f8; page-break-after: avoid; }
+  td { padding: 1.8mm 2.5mm; border-bottom: .5pt solid #e0e0e0; vertical-align: top; }
+  .ref-row { border-bottom: .5pt solid #e0e0e0; }
+  .ref-row.focus-row { background: #FFFBEA !important; border-top: .5pt solid #F5B731 !important; border-bottom: .5pt solid #F5B731 !important; }
+  .ref-row.focus-row td:first-child { border-left: 2pt solid #F5B731; }
+  .ref-row td:first-child { border-left: 2pt solid transparent; padding-left: 3mm; }
+  .td-term { font-size: 9.5pt; color: #000 !important; padding-top: 2mm; }
+  .td-term .role { color: #666 !important; font-size: 6pt; }
+  .term-flag { color: #C08000 !important; }
+  .td-what, .td-why { font-size: 6.8pt; color: #111 !important; line-height: 1.32; }
+  .td-what code, .td-why code { color: #0A6E5A !important; background: none; padding: 0; }
+  .td-tags { font-size: 6pt; color: #555 !important; line-height: 1.3; font-style: italic; }
+  .ref-row.focus-row .td-tags { color: #7A5000 !important; }
+  .th-term { width: 15%; } .th-what { width: 29%; } .th-why { width: 35%; } .th-tags { width: 21%; }
+  .ref-row { page-break-inside: avoid; }
+  thead { display: table-header-group; }
+  .rule-band { border-color: #888 !important; background: #f8f8f8 !important; margin-top: 5mm; padding: 4mm 5mm; page-break-inside: avoid; }
+  .rule-band::before { color: #555 !important; font-size: 6pt; }
+  .rule-statement { color: #000 !important; font-size: 13pt; }
+  .rule-flow { color: #444 !important; font-size: 6.5pt; }
+  .rule-flow code { color: #0A6E5A !important; background: none; }
+}
+</style>
+</head>
+<body>
+
+<div id="cover">
+  <div class="cover-label">Zero to Senior Engineer · laughtale.co.za</div>
+  <div class="cover-title">MY TECH<br><span>STACK</span></div>
+  <div class="cover-sub">WHY I CHOSE IT</div>
+
+  <div class="cover-meta">
+    <div class="meta-pill"><strong>5</strong> Layers</div>
+    <div class="meta-pill"><strong>1</strong> System Rule</div>
+    <div class="meta-pill"><strong>5</strong> Q&amp;A Preps</div>
+  </div>
+
+  <div class="cover-docs">
+    <div class="doc-chip" style="color:#5BBFED;border-color:#1B4E6E">01 · THE STACK</div>
+    <div class="doc-chip" style="color:#F5B731;border-color:#7A5A00">02 · IF THEY PUSH BACK</div>
+  </div>
+
+  <div class="cover-legend">
+    <div class="legend-item">
+      <div class="legend-dot" style="background:var(--teal)"></div>
+      Each row: LAYER → WHY I CHOSE IT → WHY NOT THE ALTERNATIVE → KEY TERMS
+    </div>
+    <div class="legend-item">
+      <div class="legend-dot" style="background:var(--gold)"></div>
+      Gold section = interview Q&amp;A prep — rehearsed answers to common pushback
+    </div>
+    <div class="legend-item" style="margin-left:auto;font-size:11px;color:var(--muted)">
+      Print: Chrome/Edge → Print → A4 · Background graphics ON · Landscape
+    </div>
+  </div>
+</div>
+
+<div id="nav">
+  <div class="nav-logo">STACK</div>
+  <a class="nav-btn" href="#sec1">01 · The Stack</a>
+  <a class="nav-btn" href="#sec2">02 · Push Back</a>
+  <button class="print-btn" onclick="window.print()">⎙ Print A4</button>
+</div>
+
+<div class="section-wrap accent-1" id="sec1">
+  <div class="section-banner">
+    <div class="banner-left" style="position:relative">
+      <div class="section-num">01</div>
+      <div class="banner-tag">Domain 01</div>
+      <div class="banner-title">THE STACK</div>
+      <div class="banner-sub">Each language does exactly one job it's uniquely good at, nothing more. That's a deliberate choice, not a default.</div>
+    </div>
+    <div class="banner-right">
+      <div class="banner-stat"><div class="banner-stat-num">5</div><div class="banner-stat-label">Layers</div></div>
+    </div>
+  </div>
+
+  <table class="ref-table">
+    <thead><tr><th class="th-term">LAYER</th><th class="th-what">WHY I CHOSE IT</th><th class="th-why">WHY NOT THE ALTERNATIVE</th><th class="th-tags">KEY TERMS</th></tr></thead>
+    <tbody>
+      <tr class="ref-row">
+        <td class="td-term">🧠 Python<span class="role">The Brain — Orchestration &amp; AI</span></td>
+        <td class="td-what">Every major AI SDK (Anthropic, OpenAI) is Python-first. Best-in-class libraries for data validation (<code>Pydantic</code>), async I/O (<code>httpx</code>/<code>asyncio</code>), and ETL — it's the layer that talks to everything else.</td>
+        <td class="td-why">Not Node.js — Python's data and AI ecosystem is deeper and more mature for orchestration work.</td>
+        <td class="td-tags">Pydantic, httpx, asyncio, orchestration</td>
+      </tr>
+      <tr class="ref-row">
+        <td class="td-term">⚙️ C# / .NET<span class="role">The Brawn — Performance &amp; Enterprise Logic</span></td>
+        <td class="td-what">The CLR gives explicit control over memory (<code>Span&lt;T&gt;</code>, stack vs heap) and predictable GC behaviour, essential when a service must stay fast under real load. Strong typing and DI keep long-running business logic safe to extend.</td>
+        <td class="td-why">Not Python here — the GIL and dynamic typing make it the wrong tool once performance and predictability actually matter.</td>
+        <td class="td-tags">Span&lt;T&gt;, CLR, DI, GC</td>
+      </tr>
+      <tr class="ref-row">
+        <td class="td-term">🔧 PowerShell<span class="role">The Glue — Infrastructure &amp; Hardening</span></td>
+        <td class="td-what">A .NET object pipeline, not text parsing — you filter live typed objects (<code>DateTime</code>, <code>Process</code>) directly. Native to Windows hardening, security auditing, and idempotent infrastructure (<code>DSC</code>).</td>
+        <td class="td-why">Not Bash — Bash parses fragile text output; PowerShell returns typed objects, safer at scale.</td>
+        <td class="td-tags">DSC, object pipeline, hardening</td>
+      </tr>
+      <tr class="ref-row">
+        <td class="td-term">🗄️ PostgreSQL<span class="role">The Memory — Persistence &amp; Integrity</span></td>
+        <td class="td-what">ACID transactions and constraints guarantee data integrity. JSONB adds document flexibility without losing relational structure. Triggers enforce audit logging the application layer can't bypass.</td>
+        <td class="td-why">Not MongoDB — this data is relational by nature (jobs, users, transactions) and needs strict consistency, not eventual consistency.</td>
+        <td class="td-tags">ACID, JSONB, triggers</td>
+      </tr>
+      <tr class="ref-row">
+        <td class="td-term">🖥️ TypeScript<span class="role">The Face — UI &amp; Contract Enforcement</span></td>
+        <td class="td-what">Compile-time types catch a class of bugs before they ship. Paired with <code>Zod</code> for runtime validation, the Python↔TypeScript boundary becomes an enforced contract — a schema mismatch fails loudly, not silently.</td>
+        <td class="td-why">Not plain JavaScript — JS has no compile-time safety net, so backend changes surface as silent <code>undefined</code> bugs instead of caught errors.</td>
+        <td class="td-tags">Zod, compile-time types, contract</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="rule-band">
+    <div class="rule-statement">PYTHON ORCHESTRATES. C# PERFORMS. POWERSHELL MANAGES. POSTGRESQL PERSISTS. TYPESCRIPT DISPLAYS. NO LAYER DOES ANOTHER LAYER'S JOB.</div>
+    <div class="rule-flow">Flow: <code>TypeScript (UI)</code> → <code>Python (API + orchestration)</code> → <code>PostgreSQL (data)</code>. C# handles performance-critical services Python calls into. PowerShell provisions and hardens the infrastructure underneath all of it.</div>
+  </div>
+</div>
+
+<div class="section-wrap accent-5" id="sec2">
+  <div class="section-banner">
+    <div class="banner-left" style="position:relative">
+      <div class="section-num">02</div>
+      <div class="banner-tag">Domain 02</div>
+      <div class="banner-title">IF THEY PUSH BACK</div>
+      <div class="banner-sub">Rehearsed answers to the five questions a five-language stack always invites.</div>
+    </div>
+    <div class="banner-right">
+      <div class="banner-stat"><div class="banner-stat-num">5</div><div class="banner-stat-label">Questions</div></div>
+    </div>
+  </div>
+
+  <table class="ref-table">
+    <thead><tr><th class="th-term">Q#</th><th class="th-what">QUESTION</th><th class="th-why">ANSWER</th><th class="th-tags">THEME</th></tr></thead>
+    <tbody>
+      <tr class="ref-row">
+        <td class="td-term">Q1</td>
+        <td class="td-what">Why five languages instead of one?</td>
+        <td class="td-why">No single language is best at everything. One language everywhere means constantly fighting its weaknesses, or quietly accepting bad trade-offs. I match the tool to the job.</td>
+        <td class="td-tags">philosophy</td>
+      </tr>
+      <tr class="ref-row">
+        <td class="td-term">Q2</td>
+        <td class="td-what">Isn't five languages more to maintain?</td>
+        <td class="td-why">The complexity is bounded — each layer has one job and a defined contract with its neighbours (e.g. Zod validates the Python→TypeScript boundary). That's cheaper than using the wrong tool for a performance- or integrity-critical job.</td>
+        <td class="td-tags">maintainability</td>
+      </tr>
+      <tr class="ref-row">
+        <td class="td-term">Q3</td>
+        <td class="td-what">Where would you cut this down for a smaller project?</td>
+        <td class="td-why">Python + PostgreSQL + TypeScript ships most products end to end. C# only enters once I hit a measured performance ceiling Python can't solve. PowerShell is Windows-specific, irrelevant on Linux containers.</td>
+        <td class="td-tags">scalability</td>
+      </tr>
+      <tr class="ref-row">
+        <td class="td-term">Q4</td>
+        <td class="td-what">How do you stop layers from doing each other's job?</td>
+        <td class="td-why">Strict, one-directional data flow. TypeScript only talks to Python's API, never the database directly. Every boundary has an enforced schema, so violations fail loudly instead of silently.</td>
+        <td class="td-tags">architecture</td>
+      </tr>
+      <tr class="ref-row">
+        <td class="td-term">Q5</td>
+        <td class="td-what">What's the single biggest risk in a stack like this?</td>
+        <td class="td-why">Contract drift between layers. I mitigate it by making the schema the source of truth (Pydantic/Zod) rather than trusting documentation or memory to stay in sync.</td>
+        <td class="td-tags">risk</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div id="footer">
+  <span>Damian Thulani · Zero to Senior Engineer · My Tech Stack — Why I Chose It</span>
+  <span>laughtale.co.za</span>
+</div>
+
+</body>
+</html>
